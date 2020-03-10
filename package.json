@@ -1,26 +1,27 @@
 {
-  "name": "react-todo",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "tsc": "tsc",
-    "dev": "ts-node-dev --respawn --transpileOnly ./server.ts",
-    "prod": "tsc && node ./build/app.js"
-  },
-  "keywords": [],
-  "author": "Sergey Namestnikov <intr0vert.noname@mail.ru> (https://github.com/Intr0vert)",
-  "license": "ISC",
-  "dependencies": {
-    "@types/express": "^4.17.3",
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "mongoose": "^5.9.4",
-    "process-env": "^1.1.0",
-    "ts-node-dev": "^1.0.0-pre.44",
-    "typescript": "^3.8.3"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.2"
-  }
+    "name": "react-todo",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "tsc": "tsc",
+        "dev": "ts-node-dev --respawn --transpileOnly ./src/app.ts",
+        "prod": "tsc && node ./build/app.js"
+    },
+    "keywords": [],
+    "author": "Sergey Namestnikov <intr0vert.noname@mail.ru> (https://github.com/Intr0vert)",
+    "license": "ISC",
+    "dependencies": {
+        "@types/express": "^4.17.3",
+        "@types/mongoose": "^5.7.4",
+        "body-parser": "^1.19.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "mongoose": "^5.9.4",
+        "ts-node-dev": "^1.0.0-pre.44",
+        "typescript": "^3.8.3"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.2"
+    }
 }
