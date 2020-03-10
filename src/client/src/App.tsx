@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import {createStore} from 'redux';
 
-function App() {
+function counter(state = 10, action: any) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return state + 1;
+    case 'DECREMENT':
+      return state - 1;
+    default:
+      return state;
+  }
+}
+
+let store = createStore(counter);
+
+store.subscribe(() => console.log(store.getState()))
+
+export default function App() {
+  let [counter, counterChange] = useState(store.getState());
+
+  function buttonhandler(type: string) {
+    store.dispatch({type});
+    counterChange(() => store.getState());
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>{counter}</h1>
+      <button
+        onClick={() => buttonhandler('INCREMENT')}>Increment</button>
+      <button
+        onClick={() => buttonhandler('DECREMENT')}>Decrement</button>
+    </>
   );
 }
 
-export default App;
