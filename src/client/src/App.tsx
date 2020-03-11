@@ -1,37 +1,22 @@
-import React, {useState} from 'react';
-import {createStore} from 'redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {counterActions} from './reduser/actions';
 
-function counter(state = 10, action: any) {
-  switch (action.type) {
-    case 'INCREMENT':
-      return state + 1;
-    case 'DECREMENT':
-      return state - 1;
-    default:
-      return state;
-  }
+class App extends Component<any, App> {
+    // constructor(props:any) {
+    //     super(props);
+    // }
+
+    render() : any {
+        return (
+            <>
+                <button 
+                onClick={() => this.props.IncrementBy(5)}>Increment</button>
+                <button
+                onClick={() => this.props.DecrementBy(10)}>Decrement</button>
+            </>
+        )
+    }
 }
 
-let store = createStore(counter);
-
-store.subscribe(() => console.log(store.getState()))
-
-export default function App() {
-  let [counter, counterChange] = useState(store.getState());
-
-  function buttonhandler(type: string) {
-    store.dispatch({type});
-    counterChange(() => store.getState());
-  }
-
-  return (
-    <>
-      <h1>{counter}</h1>
-      <button
-        onClick={() => buttonhandler('INCREMENT')}>Increment</button>
-      <button
-        onClick={() => buttonhandler('DECREMENT')}>Decrement</button>
-    </>
-  );
-}
-
+export default connect(state => ({counts: state}), counterActions)(App);
