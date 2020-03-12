@@ -3,11 +3,11 @@ import Task from './../task';
 
 export let allTasks = (req: Request, res: Response) => {
     Task.find((err: any, tasks: any) => {
-      if (err) {
-        res.send("Error!");
-      } else {
-        res.send(tasks);
-      }
+        if (err) {
+            res.send("Error!");
+        } else {
+            res.send(tasks);
+        }
     });
 };
 
@@ -32,6 +32,7 @@ export let deleteTask = (req: Request, res: Response) => {
 };
 
 export let updateTask = (req: Request, res: Response) => {
+    console.log(req);
     Task.findByIdAndUpdate(
         req.params.id,
         req.body,

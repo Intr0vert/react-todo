@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
-import {counter} from './reduser/reducers';
+import reducer from './ducs';
 import App from './App';
+import thunk from 'redux-thunk';
 
-const store = createStore(counter);
+const store = createStore(reducer, applyMiddleware(thunk));
 
 store.subscribe(() => render());
 
@@ -16,10 +17,7 @@ render();
 function render() {
     ReactDOM.render(
         <Provider store={store}>
-            <>
-                <h1>Counts: {store.getState()}</h1>
-                <App />
-            </>
+            <App />
         </Provider>
         , document.getElementById('root'));
 }

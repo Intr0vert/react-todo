@@ -1,11 +1,17 @@
 require('dotenv').config();
 
+const morgan = require('morgan');
+import cors = require('cors');
 import express, { Request, Response } from "express";
 import * as taskController from "./controllers/taskController";
 
 const app: express.Application = express();
 const assert = require('assert');
 
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
+app.use(morgan('dev'));
 app.set("port", process.env.PORT || 3000);
 
 app.get("/", function(req: Request, res: Response) {

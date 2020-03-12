@@ -18,11 +18,17 @@ mongoose.connect(uri, (err: any) => {
 });
 
 export interface ITask extends mongoose.Document {
-  title: string;
+  id: number,
+  title: string,
+  description: string,
+  isDone: boolean
 }
 
 export const TaskSchema = new mongoose.Schema({
+  id: {type: Number, required: true},
   title: { type: String, required: true },
+  description: {type: String, required: false},
+  isDone: {type: Boolean, required: true},
 }, {
   collection: 'task'
 });
