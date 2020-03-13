@@ -1,31 +1,78 @@
-export const checkboxHandler = function (this: any, id: number, isDone: boolean) {
-    fetch(`http://localhost:8080/task/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({isDone: !isDone}),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(() => {
-        this.props.dispatch(this.props.rootAction.UpdateTodo(id, !isDone));
-    });
+import {rootAction} from '../ducs/index';
+
+export const checkboxHandler = function(id: number, isDone: boolean): Function {
+    return (dispatch: Function, state: Function):Promise<any> => {
+        return fetch(`http://localhost:8080/task/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify({isDone: !isDone}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(() => {
+            dispatch(rootAction.UpdateCheckbox(id, !isDone));
+        });
+    }
 }
 
-export const getTodoData = function (this: any): Function {
+export const getTodoData = (): Function => {
     return (dispatch: Function, state: Function):Promise<any> => {
-        dispatch(this.props.rootAction.FetchStarted());
+        dispatch(rootAction.FetchStarted());
         return fetch('http://localhost:8080/tasks')
             .then((response: any) => response.json())
             .then((todos: Array<any>) => {
                 for (let todo in todos) {
-                    dispatch(this.props.rootAction.AddTodo(todos[todo]));
+                    dispatch(rootAction.AddTodo(todos[todo]));
                 }
             })
             .then(()=>{
-                setTimeout(()=>dispatch(this.props.rootAction.DataReceived()), 0);
+                setTimeout(()=>dispatch(rootAction.DataReceived()), 0);
             })
             .catch((err)=>{
-                dispatch(this.props.rootAction.DataError(err));
+                dispatch(rootAction.DataError(err));
             });
+    }
+}
+
+export const deleteTask = function(id: number) : Function {
+    return (dispatch: Function, state: Function):Promise<any> => {
+            return fetch(`http://localhost:8080/task/${id}`, {
+            method: 'DELETE',
+        })
+        .then(() => {
+            dispatch(rootAction.UpdateTodo(id));
+        });
+    }
+}
+
+export const addTask = function(
+        title: string,
+        description: string,
+        isDone: boolean
+    ) : Function {
+    return (dispatch: Function, state: Function):Promise<any> => {
+        return fetch(`http://localhost:8080/task`, {
+            method: 'POST',
+            body: JSON.stringify({
+                title,
+                description,
+                isDone
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((task) => {
+            return task.json();
+        })
+        .then((id)=>{
+            dispatch(
+                rootAction.AddTodo({
+                    id,
+                    title,
+                    description,
+                    isDone
+            }));
+        });
     }
 }

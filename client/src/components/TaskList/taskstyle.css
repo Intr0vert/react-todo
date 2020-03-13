@@ -9,16 +9,18 @@
 
 .todo--el p,
 .todo--el>h4 {
+    margin-bottom: 15px;
     text-align: center;
 }
 
 .todo--checkbox {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 15px;
+    margin: 15px 0;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 35px;
     height: 15px;
-    border-radius: 50%;
+    border-radius: 10px;
     cursor: pointer;
 }
 
@@ -28,4 +30,15 @@
 
 .todo--undone {
     background-color: rgb(255, 59, 59);
+}
+
+.todo--delete {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background-color: rgb(255, 59, 59);
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
 }

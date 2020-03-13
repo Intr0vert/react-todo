@@ -32,39 +32,6 @@ button {
     margin-bottom: 15px;
 }
 
-.todo--form {
-    width: 350px;
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.todo--form h4 {
-    margin-bottom: 15px;
-}
-
-.todo--form input {
-    padding: 10px;
-    border: none;
-    margin-bottom: 25px;
-    border-radius: 10px;
-}
-
-.todo--form button {
-    border: none;
-    border-radius: 10px;
-    background-color: rgb(194, 206, 204);
-    transition: box-shadow .3s;
-    cursor: pointer;
-}
-
-.todo--form button:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
 .todo--preloader {
     margin-bottom: 25px;
 }

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { rootAction } from './ducs';
-import AddTask from './components/AddTask';
+import AddTask from './components/AddTask/AddTask';
 import {getTodoData} from './requests/handlers';
 import TaskList from './components/TaskList/TaskList';
 
 interface App {
-    getTodoData: Function
+    getTodoData: Function,
 }
 
 class App extends Component<any, App> {
@@ -15,6 +15,8 @@ class App extends Component<any, App> {
         
         this.getTodoData = getTodoData.bind(this);
     }
+
+    addTaskHandler () {}
 
     componentDidMount() {
         this.props.dispatch(this.getTodoData());

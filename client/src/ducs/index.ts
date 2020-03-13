@@ -1,8 +1,8 @@
 import {combineReducers} from 'redux';
 
 export const ADD_TODO = "ADD_TODO";
-export const CLEAR_TODO = "CLEAR_TODO";
 export const UPDATE_TODO = "UPDATE_TODO";
+export const UPDATE_CHECKBOX = "UPDATE_CHECKBOX";
 export const FETCH_STARTED = "FETCH_STARTED";
 export const DATA_RECEIVED = "DATA_RECEIVED";
 export const DATA_ERROR = "DATA_ERROR";
@@ -12,14 +12,15 @@ const AddTodo = (todo: Object) : object => ({
     todo
 });
 
-const ClearTodo = () : object => ({
-    type: CLEAR_TODO,
-});
-
-const UpdateTodo = (id: number, isDone: boolean) : object => ({
-    type: UPDATE_TODO,
+const UpdateCheckbox = (id: number, isDone: boolean) : object => ({
+    type: UPDATE_CHECKBOX,
     id,
     isDone
+});
+
+const UpdateTodo = (id: number) : object => ({
+    type: UPDATE_TODO,
+    id
 });
 
 const FetchStarted = () : object => ({
@@ -50,8 +51,8 @@ function todoReducer(state:Array<Object> = [], action:any) {
     switch(action.type) {
         case ADD_TODO:
             return [...state, action.todo];
-        case CLEAR_TODO:
-            return [];
+        case UPDATE_CHECKBOX:
+            return updateCheckbox(state, action);
         case UPDATE_TODO:
             return updateTodo(state, action);
         default:
@@ -59,10 +60,19 @@ function todoReducer(state:Array<Object> = [], action:any) {
     }
 }
 
-function updateTodo(state: Array<any>, action: any) {
+function updateCheckbox(state: Array<any>, action: any) {
     return state.map((el) => {
         if (el._id === action.id) {
             el.isDone = !el.isDone;
+        }
+        return el;
+    });
+}
+
+function updateTodo(state: Array<any>, action: any) {
+    return state.filter((el) => {
+        if (el._id === action.id) {
+            return false;
         }
         return el;
     });
@@ -86,7 +96,7 @@ export default rootReducer;
 
 const rootAction = {
     AddTodo,
-    ClearTodo,
+    UpdateCheckbox,
     UpdateTodo,
     FetchStarted,
     DataReceived,

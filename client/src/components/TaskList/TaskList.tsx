@@ -1,7 +1,6 @@
 import React from 'react';
-import TodoEl from '../TodoEl';
+import TodoEl from './TodoEl';
 import Preloader from '../Preloader/Preloader';
-import {checkboxHandler} from '../../requests/handlers';
 import './taskstyle.css';
 
 export default function TaskList(props: any) {
@@ -9,8 +8,7 @@ export default function TaskList(props: any) {
     const renderLists = () => {
         return (
             ownProps.todos.map((el: any, i: number) => 
-                <TodoEl key={i} todo={el} props={ownProps}
-                checkboxHandler={checkboxHandler}/>)
+                <TodoEl key={i} todo={el} props={ownProps}/>)
         )
     }
 

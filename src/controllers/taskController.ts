@@ -48,12 +48,11 @@ export const updateTask = (req: Request, res: Response) => {
 
 export const addTask = (req: Request, res: Response) => {
   const task = new Task(req.body);
-
   task.save((err: any) => {
     if (err) {
       res.send(err);
     } else {
-      res.send(task);
+      res.send(JSON.stringify(task._id));
     }
   });
 };
