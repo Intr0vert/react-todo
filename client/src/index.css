@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: cursive;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -20,7 +20,7 @@ button {
 }
 
 .todo--wrapper {
-    height: 100vh;
+    min-height: 100vh;
     padding: 15px;
     background-color: #e7e7e7;
     display: flex;
@@ -29,7 +29,6 @@ button {
 }
 
 .todo--wrapper h1 {
-    font-family: cursive;
     margin-bottom: 15px;
 }
 
@@ -45,7 +44,6 @@ button {
 .todo--el p,
 .todo--el>h4 {
     text-align: center;
-    font-family: cursive;
 }
 
 .todo--checkbox {
@@ -97,4 +95,13 @@ button {
 
 .todo--form button:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.todo--preloader {
+    margin-bottom: 25px;
+}
+
+.todo--error {
+    color: red;
+    margin-bottom: 25px;
 }

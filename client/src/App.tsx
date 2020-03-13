@@ -1,35 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AddTodo } from './ducs';
+import { rootAction } from './ducs';
 import TodoEl from './components/TodoEl';
 import AddTask from './components/AddTask';
+import Preloader from './components/Preloader/Preloader';
 
 class App extends Component<any, App> {
-    changeCheckboxById = (id:number) => {
+    checkboxHandler = (id: number, isDone: boolean) => {
         fetch(`http://localhost:8080/task/${id}`, {
             method: 'PUT',
-            body: JSON.stringify({isDone:true})
+            body: JSON.stringify({isDone: !isDone}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
-        .then((msg)=>console.log(msg))
-        .then(()=>{
-            this.asyncFunction();
+        .then(() => {
+            this.props.dispatch(this.props.rootAction.UpdateTodo(id, !isDone));
         });
     }
 
-    checkboxHandler = (id:number) => {
-        this.changeCheckboxById(id);
-        // this.asyncFunction();
-    }
-
     asyncFunction = (): Function => {
-        return (dispatch: Function):Promise<any> => {
-        return fetch('http://localhost:8080/tasks')
-                .then((response: any) => response.json())
-                .then((todos: Array<any>) => {
-                    for (let todo in todos) {
-                        dispatch(AddTodo(todos[todo]));
-                    }
-                });
+        return (dispatch: Function, state: Function):Promise<any> => {
+            dispatch(rootAction.FetchStarted());
+            return fetch('http://localhost:8080/tasks')
+                    .then((response: any) => response.json())
+                    .then((todos: Array<any>) => {
+                        for (let todo in todos) {
+                            dispatch(rootAction.AddTodo(todos[todo]));
+                        }
+                    })
+                    .then(()=>{
+                        setTimeout(()=>dispatch(rootAction.DataReceived()), 2000);
+                    })
+                    .catch((err)=>{
+                        dispatch(rootAction.DataError(err));
+                    });
+
         }
     }
 
@@ -37,30 +43,39 @@ class App extends Component<any, App> {
         this.props.dispatch(this.asyncFunction());
     }
 
+    renderLists() {
+        return (
+            this.props.todos.map((el: any, i: number) => 
+                <TodoEl key={i} todo={el} 
+                checkboxHandler={this.checkboxHandler}/>)
+        )
+    }
+
     render(): any {
         return (
             <div className="todo--wrapper">
                 <h1>TODO: </h1>
-                {this.props.todos.map((el: any, i: number) => 
-                    <TodoEl key={i} todo={el} 
-                    checkboxHandler={this.checkboxHandler}/>)}
+                {this.props.preloader.error && <h2 className="todo--error">ERROR</h2>}
+                {this.props.preloader.fetchDone && !this.props.preloader.error ?
+                    this.renderLists() :
+                    !this.props.preloader.error ?
+                    <Preloader/> :
+                    <></>}
                 <AddTask/>
             </div>
         )
     }
 }
 
-function mapStateToProps(state: any) {
-    return {
-        todos: state
-    }
-}
-
-function mapDispatchToProps(dispatch:any) {
-    return {
+export default connect(
+    (state: any)=>{
+        return {
+            todos: state.todoReducer,
+            preloader: state.preloaderReducer,
+        }
+    },
+    (dispatch:any)=>({
         dispatch,
-        AddTodo
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+        rootAction
+    })
+    )(App);

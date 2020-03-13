@@ -9,7 +9,7 @@ export default function TodoEl(props:any):any {
             'todo--checkbox todo--done' :
             'todo--checkbox todo--undone'
             }
-            onClick={()=>props.checkboxHandler(props.todo._id)}>
+            onClick={()=>props.checkboxHandler(props.todo._id, props.todo.isDone)}>
         </div>
     </div>
 }
