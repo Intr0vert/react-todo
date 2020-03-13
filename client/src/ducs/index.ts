@@ -59,18 +59,13 @@ function todoReducer(state:Array<Object> = [], action:any) {
     }
 }
 
-function updateTodo(state: Array<Object>, action: any) {
-    let newState: Array<Object> = [];
-    state.forEach((el: any) => {
+function updateTodo(state: Array<any>, action: any) {
+    return state.map((el) => {
         if (el._id === action.id) {
-            let newObject = Object.create(el);
-            newObject.isDone = action.isDone;
-            newState.push(newObject);
-        } else {
-            newState.push(el);
+            el.isDone = !el.isDone;
         }
+        return el;
     });
-    return newState;
 }
 
 function preloaderReducer(state:Object = {}, action:any) {
@@ -86,8 +81,8 @@ function preloaderReducer(state:Object = {}, action:any) {
     }
 }
 
-const rootRedicer = combineReducers({todoReducer, preloaderReducer});
-export default rootRedicer;
+const rootReducer = combineReducers({todoReducer, preloaderReducer});
+export default rootReducer;
 
 const rootAction = {
     AddTodo,

@@ -32,38 +32,6 @@ button {
     margin-bottom: 15px;
 }
 
-.todo--el {
-    position: relative;
-    width: 350px;
-    padding: 10px;
-    margin-bottom: 25px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.todo--el p,
-.todo--el>h4 {
-    text-align: center;
-}
-
-.todo--checkbox {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.todo--done {
-    background-color: rgb(0, 153, 0);
-}
-
-.todo--undone {
-    background-color: rgb(255, 59, 59);
-}
-
 .todo--form {
     width: 350px;
     padding: 25px;
