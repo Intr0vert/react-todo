@@ -1,32 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { rootAction } from './ducs';
+import { 
+    AddTodo,
+    UpdateCheckbox,
+    UpdateTodo,
+ } from './ducs/todo';
+import {
+    FetchStarted,
+    DataReceived,
+    DataError
+} from './ducs/preloader';
 import AddTask from './components/AddTask/AddTask';
 import {getTodoData} from './requests/handlers';
 import TaskList from './components/TaskList/TaskList';
 
-interface App {
-    getTodoData: Function,
-}
-
-class App extends Component<any, App> {
-    constructor (props:object) {
-        super(props);
-        
-        this.getTodoData = getTodoData.bind(this);
-    }
-
-    addTaskHandler () {}
-
+class App extends Component<any> {
     componentDidMount() {
-        this.props.dispatch(this.getTodoData());
+        this.props.dispatch(getTodoData());
     }
 
     render(): any {
         return (
             <div className="todo--wrapper">
                 <h1>TODO: </h1>
-                <TaskList props={this.props}/>
+                <TaskList preloader={this.props.preloader} todos={this.props.todos}/>
                 <AddTask/>
             </div>
         )
@@ -42,6 +39,13 @@ export default connect(
     },
     (dispatch:any)=>({
         dispatch,
-        rootAction
+        actions: {
+            AddTodo,
+            UpdateCheckbox,
+            UpdateTodo,
+            FetchStarted,
+            DataReceived,
+            DataError
+        }
     })
     )(App);

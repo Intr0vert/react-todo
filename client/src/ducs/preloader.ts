@@ -1,8 +1,10 @@
+import { FetchStatus } from '../types/preloader';
+
 export const FETCH_STARTED = "FETCH_STARTED";
 export const DATA_RECEIVED = "DATA_RECEIVED";
 export const DATA_ERROR = "DATA_ERROR";
 
-const FetchStarted = (): object => ({
+const FetchStarted = (): FetchStatus => ({
     type: FETCH_STARTED,
     payload: {
         fetchDone: false,
@@ -10,7 +12,7 @@ const FetchStarted = (): object => ({
     }
 });
 
-const DataReceived = (): object => ({
+const DataReceived = (): FetchStatus => ({
     type: DATA_RECEIVED,
     payload: {
         fetchDone: true,
@@ -18,7 +20,7 @@ const DataReceived = (): object => ({
     }
 });
 
-const DataError = (error: string): object => ({
+const DataError = (error: string): FetchStatus => ({
     type: DATA_ERROR,
     payload: {
         fetchDone: true,
@@ -26,7 +28,7 @@ const DataError = (error: string): object => ({
     }
 });
 
-export default function preloaderReducer(state: Object = {}, action: any) {
+export default function preloaderReducer(state: Object = {}, action: FetchStatus) {
     switch (action.type) {
         case FETCH_STARTED:
             return action.payload;

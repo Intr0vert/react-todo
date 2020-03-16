@@ -1,46 +1,57 @@
-import {rootAction} from '../ducs/index';
+import {
+    FetchStarted,
+    DataReceived,
+    DataError
+} from '../ducs/preloader';
+import {
+    AddTodo,
+    UpdateCheckbox,
+    UpdateTodo,
+} from '../ducs/todo';
 
-export const checkboxHandler = function(id: number, isDone: boolean): Function {
-    return (dispatch: Function, state: Function):Promise<any> => {
-        return fetch(`http://localhost:8080/task/${id}`, {
+export const checkboxHandler = function(_id: string, isDone: boolean): Function {
+    return (dispatch: Function):Promise<any> => {
+        return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'PUT',
-            body: JSON.stringify({isDone: !isDone}),
+            body: JSON.stringify({isDone}),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
         .then(() => {
-            dispatch(rootAction.UpdateCheckbox(id, !isDone));
+            dispatch(UpdateCheckbox(_id, isDone));
         });
     }
 }
 
 export const getTodoData = (): Function => {
-    return (dispatch: Function, state: Function):Promise<any> => {
-        dispatch(rootAction.FetchStarted());
+    return (dispatch: Function, state: Function):Promise<void> => {
+        dispatch(FetchStarted());
         return fetch('http://localhost:8080/tasks')
             .then((response: any) => response.json())
             .then((todos: Array<any>) => {
+                // for of
                 for (let todo in todos) {
-                    dispatch(rootAction.AddTodo(todos[todo]));
+                    dispatch(AddTodo(todos[todo]));
                 }
             })
             .then(()=>{
-                setTimeout(()=>dispatch(rootAction.DataReceived()), 0);
+                // обертка над промисами чтобы было задержка
+                setTimeout(()=>dispatch(DataReceived()), 0);
             })
             .catch((err)=>{
-                dispatch(rootAction.DataError(err));
+                dispatch(DataError(err));
             });
     }
 }
 
-export const deleteTask = function(id: number) : Function {
-    return (dispatch: Function, state: Function):Promise<any> => {
-            return fetch(`http://localhost:8080/task/${id}`, {
+export const deleteTask = function(_id: string) : Function {
+    return (dispatch: Function, state: Function):Promise<void> => {
+            return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'DELETE',
         })
         .then(() => {
-            dispatch(rootAction.UpdateTodo(id));
+            dispatch(UpdateTodo(_id));
         });
     }
 }
@@ -50,7 +61,7 @@ export const addTask = function(
         description: string,
         isDone: boolean
     ) : Function {
-    return (dispatch: Function, state: Function):Promise<any> => {
+    return (dispatch: Function, state: Function):Promise<void> => {
         return fetch(`http://localhost:8080/task`, {
             method: 'POST',
             body: JSON.stringify({
@@ -63,15 +74,17 @@ export const addTask = function(
             }
         })
         .then((task) => {
+            // ???
+            // Добавить прелоадер
             return task.json();
         })
-        .then((id)=>{
+        .then((_id)=>{
             dispatch(
-                rootAction.AddTodo({
-                    id,
+                AddTodo({
+                    _id,
                     title,
                     description,
-                    isDone
+                    isDone: false
             }));
         });
     }

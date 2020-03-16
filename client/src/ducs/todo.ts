@@ -1,49 +1,47 @@
+import { Todo, TodoAction } from '../types/todo';
+
 export const ADD_TODO = "ADD_TODO";
 export const UPDATE_TODO = "UPDATE_TODO";
 export const UPDATE_CHECKBOX = "UPDATE_CHECKBOX";
 
-
-const AddTodo = (todo: Object): object => ({
+const AddTodo = (todo: Todo): TodoAction => ({
     type: ADD_TODO,
-    todo
+    payload: todo
 });
 
-const UpdateCheckbox = (id: number, isDone: boolean): object => ({
+const UpdateCheckbox = (_id: string, isDone: boolean): TodoAction => ({
     type: UPDATE_CHECKBOX,
-    id,
-    isDone
+    payload: {
+        _id,
+        isDone
+    }
 });
 
-const UpdateTodo = (id: number): object => ({
+const UpdateTodo = (_id: string): TodoAction => ({
     type: UPDATE_TODO,
-    id
+    payload: _id
 });
 
-export default function todoReducer(state: Array<Object> = [], action: any) {
+export default function todoReducer(state: Array<Todo> = [], action: TodoAction) {
     switch (action.type) {
         case ADD_TODO:
-            return [...state, action.todo];
+            return [...state, action.payload];
         case UPDATE_CHECKBOX:
-            return updateCheckbox(state, action);
+            return updateCheckbox(state, action.payload);
         case UPDATE_TODO:
-            return updateTodo(state, action);
+            return deleteTodo(state, action.payload);
         default:
             return state;
     }
 } 
 
-function updateCheckbox(state: Array<any>, action: any) {
-    return state.map((el) => {
-        if (el._id === action.id) {
-            el.isDone = !el.isDone;
-        }
-        return el;
-    });
+function updateCheckbox(state: Array<Todo>, action: TodoAction) {
+    return state.map((el) => el._id === action._id ? { ...el, isDone: !el.isDone } : el);
 }
 
-function updateTodo(state: Array<any>, action: any) {
+function deleteTodo(state: Array<Todo>, targetId: string) {
     return state.filter((el) => {
-        if (el._id === action.id) {
+        if (el._id === targetId) {
             return false;
         }
         return el;

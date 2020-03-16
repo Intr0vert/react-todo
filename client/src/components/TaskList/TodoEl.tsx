@@ -14,7 +14,7 @@ export default function TodoEl(props:any):any {
             }
             onClick={()=>dispatch(checkboxHandler(
                 props.todo._id,
-                props.todo.isDone))}>
+                !props.todo.isDone))}>
         </div>
         <div className="todo--delete"
             onClick={()=>dispatch(deleteTask(props.todo._id))}></div>
