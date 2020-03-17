@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import {
     FetchStarted,
     DataReceived,
@@ -10,7 +11,7 @@ import {
 } from '../ducs/todo';
 
 export const checkboxHandler = function(_id: string, isDone: boolean): Function {
-    return (dispatch: Function):Promise<any> => {
+    return (dispatch: Dispatch):Promise<any> => {
         return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'PUT',
             body: JSON.stringify({isDone}),
@@ -24,8 +25,8 @@ export const checkboxHandler = function(_id: string, isDone: boolean): Function 
     }
 }
 
-export const getTodoData = (): Function => {
-    return (dispatch: Function, state: Function):Promise<void> => {
+export const getTodoData = (): any => {
+    return (dispatch: Dispatch):Promise<void> => {
         dispatch(FetchStarted());
         return fetch('http://localhost:8080/tasks')
             .then((response: any) => response.json())
@@ -46,7 +47,7 @@ export const getTodoData = (): Function => {
 }
 
 export const deleteTask = function(_id: string) : Function {
-    return (dispatch: Function, state: Function):Promise<void> => {
+    return (dispatch: Dispatch):Promise<void> => {
             return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'DELETE',
         })
@@ -58,16 +59,15 @@ export const deleteTask = function(_id: string) : Function {
 
 export const addTask = function(
         title: string,
-        description: string,
-        isDone: boolean
+        description: string
     ) : Function {
-    return (dispatch: Function, state: Function):Promise<void> => {
+    return (dispatch: Dispatch):Promise<void> => {
         return fetch(`http://localhost:8080/task`, {
             method: 'POST',
             body: JSON.stringify({
                 title,
                 description,
-                isDone
+                isDone: false
             }),
             headers: {
                 'Content-Type': 'application/json'

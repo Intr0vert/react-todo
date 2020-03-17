@@ -5,8 +5,8 @@ export interface AbstractAction<TType, TPayload> extends Action<TType> {
 }
 
 export interface Fetch {
-    fetchDone: boolean;
-    error: string|null;
+    fetchDone?: boolean;
+    error?: string | null;
 }
 
 export type FetchStatus = AbstractAction<typeof FETCH_STARTED | typeof DATA_RECEIVED | typeof DATA_ERROR, Fetch>;

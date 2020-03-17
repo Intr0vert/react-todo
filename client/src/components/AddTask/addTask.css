@@ -30,15 +30,3 @@
 .todo--form button:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-
-.todo--form-checkbox {
-    margin-bottom: 20px;
-    display: block;
-    display: flex;
-    align-items: center;
-}
-
-.todo--form-checkbox input {
-    margin: 0;
-    margin-left: 10px;
-}

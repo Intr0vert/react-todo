@@ -1,7 +1,7 @@
 import React from 'react';
 import './preloader.css';
 
-const Preloader = () => {
+const Preloader = (): JSX.Element => {
     return <div className="todo--preloader">
         <div className="todo--spinner">
             <div className="todo--preloader-bounce1"></div>

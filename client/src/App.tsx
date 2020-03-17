@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { 
     AddTodo,
     UpdateCheckbox,
@@ -11,15 +12,17 @@ import {
     DataError
 } from './ducs/preloader';
 import AddTask from './components/AddTask/AddTask';
-import {getTodoData} from './requests/handlers';
+import { getTodoData } from './requests/handlers';
 import TaskList from './components/TaskList/TaskList';
+import { IState } from './types/state';
+import { IApp } from './types/app';
 
-class App extends Component<any> {
+class App extends Component<any, IApp> {
     componentDidMount() {
         this.props.dispatch(getTodoData());
     }
 
-    render(): any {
+    render(): JSX.Element {
         return (
             <div className="todo--wrapper">
                 <h1>TODO: </h1>
@@ -31,13 +34,13 @@ class App extends Component<any> {
 }
 
 export default connect(
-    (state: any)=>{
+    (state: IState)=>{
         return {
             todos: state.todoReducer,
             preloader: state.preloaderReducer,
         }
     },
-    (dispatch:any)=>({
+    (dispatch: Dispatch)=> ({
         dispatch,
         actions: {
             AddTodo,
@@ -48,4 +51,4 @@ export default connect(
             DataError
         }
     })
-    )(App);
+)(App);

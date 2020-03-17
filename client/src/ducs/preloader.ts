@@ -1,4 +1,4 @@
-import { FetchStatus } from '../types/preloader';
+import { FetchStatus, Fetch } from '../types/preloader';
 
 export const FETCH_STARTED = "FETCH_STARTED";
 export const DATA_RECEIVED = "DATA_RECEIVED";
@@ -28,7 +28,7 @@ const DataError = (error: string): FetchStatus => ({
     }
 });
 
-export default function preloaderReducer(state: Object = {}, action: FetchStatus) {
+export default function preloaderReducer(state: Fetch = {}, action: FetchStatus) {
     switch (action.type) {
         case FETCH_STARTED:
             return action.payload;
