@@ -15,9 +15,9 @@ import AddTask from './components/AddTask/AddTask';
 import { getTodoData } from './requests/handlers';
 import TaskList from './components/TaskList/TaskList';
 import { IState } from './types/state';
-import { IApp } from './types/app';
+import { IAppProps } from './types/app';
 
-class App extends Component<any, IApp> {
+class App extends Component<IAppProps, IState> {
     componentDidMount() {
         this.props.dispatch(getTodoData());
     }
