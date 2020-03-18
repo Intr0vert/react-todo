@@ -1,9 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import {Request, Response} from 'express';
 import Task from './../task';
+import { Todo } from '../types/todo';
 
 export const allTasks = (req: Request, res: Response) => {
-  Task.find((err: any, tasks: any) => {
+  Task.find((err: Error, tasks: Array<Todo>) => {
+    console.log(tasks);
     if (err) {
       res.send('Error!');
     } else {
@@ -13,7 +15,7 @@ export const allTasks = (req: Request, res: Response) => {
 };
 
 export const getTask = (req: Request, res: Response) => {
-  Task.findById(req.params.id, (err: any, task: any) => {
+  Task.findById(req.params.id, (err: Error, task: Todo) => {
     if (err) {
       res.send(err);
     } else {
@@ -23,7 +25,7 @@ export const getTask = (req: Request, res: Response) => {
 };
 
 export const deleteTask = (req: Request, res: Response) => {
-  Task.deleteOne({_id: req.params.id}, (err: any) => {
+  Task.deleteOne({_id: req.params.id}, (err: Error) => {
     if (err) {
       res.send(err);
     } else {
@@ -36,7 +38,7 @@ export const updateTask = (req: Request, res: Response) => {
   Task.findByIdAndUpdate(
       req.params.id,
       req.body,
-      (err: any, task: any) => {
+      (err: Error) => {
         if (err) {
           res.send(err);
         } else {
@@ -48,7 +50,7 @@ export const updateTask = (req: Request, res: Response) => {
 
 export const addTask = (req: Request, res: Response) => {
   const task = new Task(req.body);
-  task.save((err: any) => {
+  task.save((err: Error) => {
     if (err) {
       res.send(err);
     } else {

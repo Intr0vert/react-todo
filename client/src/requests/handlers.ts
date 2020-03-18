@@ -10,9 +10,10 @@ import {
     UpdateTodo,
 } from '../ducs/todo';
 import { AppThunk } from '../types/thunk';
+import { Todo } from '../types/todo';
 
 export const checkboxHandler = function(_id: string, isDone: boolean): Function {
-    return (dispatch: Dispatch):Promise<any> => {
+    return (dispatch: Dispatch):Promise<void> => {
         return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'PUT',
             body: JSON.stringify({isDone}),
@@ -30,8 +31,8 @@ export const getTodoData = (): AppThunk => {
     return (dispatch: Dispatch):Promise<void> => {
         dispatch(FetchStarted());
         return fetch('http://localhost:8080/tasks')
-            .then((response: any) => response.json())
-            .then((todos: Array<any>) => {
+            .then((response: Response) => response.json())
+            .then((todos: Array<Todo>) => {
                 // for of
                 for (let todo in todos) {
                     dispatch(AddTodo(todos[todo]));

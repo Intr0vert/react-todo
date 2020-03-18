@@ -9,7 +9,7 @@ if (process.env.mongoDB) {
   throw new Error('Some problems with connection');
 }
 
-mongoose.connect(uri, (err: any) => {
+mongoose.connect(uri, (err: Error) => {
   if (err) {
     console.log(err.message);
   } else {
