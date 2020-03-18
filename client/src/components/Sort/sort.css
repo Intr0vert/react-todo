@@ -1,0 +1,16 @@
+.todo--sort {
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.todo--sort input {
+    margin-left: 10px;
+}
+
+.todo--sort label {
+    display: flex;
+    align-items: center;
+}

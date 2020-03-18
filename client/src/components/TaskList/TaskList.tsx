@@ -8,7 +8,13 @@ import { Todo } from '../../types/todo';
 export default function TaskList(props: ITaskListProps): JSX.Element {
     const renderLists = () => {
         return (
-            props.todos.map((el: Todo) => <TodoEl key={el._id} todo={el}/>)
+            props.todos.map((el: Todo) => {
+                if (true) {
+                    return <TodoEl key={el._id} todo={el}/>
+                } else {
+                    return false;
+                }
+            })
         )
     }
 

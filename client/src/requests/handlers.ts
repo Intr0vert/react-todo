@@ -33,9 +33,8 @@ export const getTodoData = (): AppThunk => {
         return fetch('http://localhost:8080/tasks')
             .then((response: Response) => response.json())
             .then((todos: Array<Todo>) => {
-                // for of
-                for (let todo in todos) {
-                    dispatch(AddTodo(todos[todo]));
+                for (let todo of todos) {
+                    dispatch(AddTodo(todo));
                 }
             })
             .then(()=>{
@@ -76,8 +75,7 @@ export const addTask = function(
             }
         })
         .then((task) => {
-            // ???
-            // Добавить прелоадер
+            dispatch(FetchStarted());
             return task.json();
         })
         .then((_id)=>{
@@ -88,6 +86,12 @@ export const addTask = function(
                     description,
                     isDone: false
             }));
+        })
+        .then(()=>{
+            dispatch(DataReceived());
+        })
+        .catch(()=> {
+            dispatch(DataError('Problem with adding tasks'));
         });
     }
 }

@@ -16,6 +16,7 @@ import { getTodoData } from './requests/handlers';
 import TaskList from './components/TaskList/TaskList';
 import { IState } from './types/state';
 import { IAppProps } from './types/app';
+import Sort from './components/Sort/Sort';
 
 class App extends Component<IAppProps, IState> {
     componentDidMount() {
@@ -25,6 +26,7 @@ class App extends Component<IAppProps, IState> {
     render(): JSX.Element {
         return (
             <div className="todo--wrapper">
+                <Sort/>
                 <h1>TODO: </h1>
                 <TaskList preloader={this.props.preloader} todos={this.props.todos}/>
                 <AddTask/>

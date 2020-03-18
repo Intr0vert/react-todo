@@ -5,7 +5,6 @@ import { Todo } from '../types/todo';
 
 export const allTasks = (req: Request, res: Response) => {
   Task.find((err: Error, tasks: Array<Todo>) => {
-    console.log(tasks);
     if (err) {
       res.send('Error!');
     } else {

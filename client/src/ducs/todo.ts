@@ -6,7 +6,7 @@ export const UPDATE_CHECKBOX = "UPDATE_CHECKBOX";
 
 const AddTodo = (todo: Todo): TodoAction => ({
     type: ADD_TODO,
-    payload: todo
+    payload: todo,
 });
 
 const UpdateCheckbox = (_id: string, isDone: boolean): TodoAction => ({
