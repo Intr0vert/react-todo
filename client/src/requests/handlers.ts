@@ -9,6 +9,7 @@ import {
     UpdateCheckbox,
     UpdateTodo,
 } from '../ducs/todo';
+import { AppThunk } from '../types/thunk';
 
 export const checkboxHandler = function(_id: string, isDone: boolean): Function {
     return (dispatch: Dispatch):Promise<any> => {
@@ -25,7 +26,7 @@ export const checkboxHandler = function(_id: string, isDone: boolean): Function 
     }
 }
 
-export const getTodoData = (): any => {
+export const getTodoData = (): AppThunk => {
     return (dispatch: Dispatch):Promise<void> => {
         dispatch(FetchStarted());
         return fetch('http://localhost:8080/tasks')
