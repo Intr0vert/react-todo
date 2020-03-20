@@ -1,0 +1,47 @@
+import { Action } from 'redux';
+
+import { 
+    ADD_TODO,
+    DELETE_TODO,
+    CHANGE_CHECKBOX,
+    FETCH_STARTED,
+    DATA_RECEIVED,
+    DATA_ERROR,
+} from '../ducs/todos';
+
+export interface Todo {
+    _id: string;
+    title: string;
+    description?: string;
+    isDone: boolean;
+}
+
+export interface TodoState {
+    data: Todo[];
+    isLoading: boolean;
+    error: boolean;
+    showAll: boolean;
+}
+
+export interface FetchAction {
+    isLoading: boolean,
+    error: boolean,
+}
+
+export interface AbstractAction<TType, TPayload> extends Action<TType> {
+    payload: TPayload;
+}
+
+export type AddTodoAction = AbstractAction<typeof ADD_TODO, Todo>;
+export type DeleteTodoAction = AbstractAction<typeof DELETE_TODO, Todo>;
+export type ChangeCheckboxTodoAction = AbstractAction<typeof CHANGE_CHECKBOX, Todo>;
+export type FetchStartedTodoAction = AbstractAction<typeof FETCH_STARTED, FetchAction>;
+export type DataReceiveTodoAction = AbstractAction<typeof DATA_RECEIVED, FetchAction>;
+export type DataErrorTodoAction = AbstractAction<typeof DATA_ERROR, FetchAction>;
+
+export type TodoAction = AddTodoAction | 
+    DeleteTodoAction | 
+    ChangeCheckboxTodoAction |
+    FetchStartedTodoAction |
+    DataErrorTodoAction |
+    DataReceiveTodoAction;

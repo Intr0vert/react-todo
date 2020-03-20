@@ -2,30 +2,18 @@ import React from 'react';
 import TodoEl from './TodoEl';
 import Preloader from '../Preloader/Preloader';
 import './taskstyle.css';
-import { ITaskListProps } from '../../types/taskList';
-import { Todo } from '../../types/todo';
+import { State } from '../../types/state';
+import { Todo } from '../../types/todos';
 
-export default function TaskList(props: ITaskListProps): JSX.Element {
-    const renderLists = () => {
-        return (
-            props.todos.map((el: Todo) => {
-                if (true) {
-                    return <TodoEl key={el._id} todo={el}/>
-                } else {
-                    return false;
-                }
-            })
-        )
+export default function TaskList(props: State): any {
+    const todos = props.todos;
+    if (todos.error) {
+        return <h2 className="todo--error">{todos.error}</h2>;
     }
 
-    return <>
-        {props.preloader.error && 
-        <h2 className="todo--error">Somethink went wrong</h2>}
-
-        {props.preloader.fetchDone && !props.preloader.error ?
-            renderLists() :
-            !props.preloader.error ?
-            <Preloader/> :
-            <></>}
-    </>
+    if (!todos.isLoading) {
+        return todos.data.map((el: Todo) => <TodoEl key={el._id} todo={el}/>);
+    } else {
+        return <Preloader />;
+    }
 }

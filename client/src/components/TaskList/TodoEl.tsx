@@ -1,23 +1,24 @@
 import React from 'react';
-import {checkboxHandler, deleteTask} from '../../requests/handlers';
-import {useDispatch} from 'react-redux';
+// import {checkboxHandler, deleteTask} from '../../requests/handlers';
+// import {useDispatch} from 'react-redux';
 import { ITodoElProps } from '../../types/todoEl';
 
 export default function TodoEl(props: ITodoElProps): JSX.Element {
-    const dispatch = useDispatch();
+    const todo = props.todo;
+    // const dispatch = useDispatch();
     return <div className="todo--el">
-        <h4>{props.todo.title}</h4>
-        <p>{props.todo.description}</p>
+        <h4>{todo.title}</h4>
+        <p>{todo.description}</p>
         <div className={
-            props.todo.isDone ? 
+            todo.isDone ? 
             'todo--checkbox todo--done' :
             'todo--checkbox todo--undone'
             }
-            onClick={()=>dispatch(checkboxHandler(
+            /* onClick={()=>dispatch(checkboxHandler(
                 props.todo._id,
-                !props.todo.isDone))}>
+                !props.todo.isDone))} */>
         </div>
         <div className="todo--delete"
-            onClick={()=>dispatch(deleteTask(props.todo._id))}></div>
+            /* onClick={()=>dispatch(deleteTask(props.todo._id))} */></div>
     </div>
 }

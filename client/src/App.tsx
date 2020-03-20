@@ -3,22 +3,29 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { 
     AddTodo,
-    UpdateCheckbox,
-    UpdateTodo,
- } from './ducs/todo';
-import {
+    // UpdateCheckbox,
+    // UpdateTodo,
     FetchStarted,
     DataReceived,
     DataError
-} from './ducs/preloader';
+ } from './ducs/todos';
+import {Todo} from './types/todos';
 import AddTask from './components/AddTask/AddTask';
 import { getTodoData } from './requests/handlers';
 import TaskList from './components/TaskList/TaskList';
-import { IState } from './types/state';
+import { State } from './types/state';
 import { IAppProps } from './types/app';
 import Sort from './components/Sort/Sort';
 
-class App extends Component<IAppProps, IState> {
+class App extends Component<IAppProps, State> {
+    todos: Array<Todo>;
+
+    constructor(props: IAppProps) {
+        super(props);
+        
+        this.todos = props.todos.data;
+    }
+
     componentDidMount() {
         this.props.dispatch(getTodoData());
     }
@@ -28,7 +35,7 @@ class App extends Component<IAppProps, IState> {
             <div className="todo--wrapper">
                 <Sort/>
                 <h1>TODO: </h1>
-                <TaskList preloader={this.props.preloader} todos={this.props.todos}/>
+                <TaskList todos={this.props.todos}/>
                 <AddTask/>
             </div>
         )
@@ -36,18 +43,22 @@ class App extends Component<IAppProps, IState> {
 }
 
 export default connect(
-    (state: IState)=>{
+    (state: State)=> {
         return {
-            todos: state.todoReducer,
-            preloader: state.preloaderReducer,
+            todos: {
+                data: [...state.todos.data],
+                isLoading: state.todos.isLoading,
+                error: state.todos.error,
+                showAll: state.todos.showAll,
+            }
         }
     },
     (dispatch: Dispatch)=> ({
         dispatch,
         actions: {
             AddTodo,
-            UpdateCheckbox,
-            UpdateTodo,
+            // UpdateCheckbox,
+            // UpdateTodo,
             FetchStarted,
             DataReceived,
             DataError

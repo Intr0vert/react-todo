@@ -1,6 +1,5 @@
 import {combineReducers} from 'redux';
-import preloaderReducer from './preloader';
-import todoReducer from './todo';
+import todos from './todos';
 
-const rootReducer = combineReducers({todoReducer, preloaderReducer});
+const rootReducer = combineReducers({ todos});
 export default rootReducer;

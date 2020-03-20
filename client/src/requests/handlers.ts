@@ -1,34 +1,32 @@
-import { Dispatch } from 'redux';
+import { Dispatch, Store } from 'redux';
 import {
+    AddTodo,
     FetchStarted,
     DataReceived,
     DataError
-} from '../ducs/preloader';
-import {
-    AddTodo,
-    UpdateCheckbox,
-    UpdateTodo,
-} from '../ducs/todo';
-import { AppThunk } from '../types/thunk';
-import { Todo } from '../types/todo';
+    // UpdateCheckbox,
+    // UpdateTodo,
+} from '../ducs/todos';
+// import { AppThunk } from '../types/thunk';
+import { Todo } from '../types/todos';
 
-export const checkboxHandler = function(_id: string, isDone: boolean): Function {
-    return (dispatch: Dispatch):Promise<void> => {
-        return fetch(`http://localhost:8080/task/${_id}`, {
-            method: 'PUT',
-            body: JSON.stringify({isDone}),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(() => {
-            dispatch(UpdateCheckbox(_id, isDone));
-        });
-    }
-}
+// export const checkboxHandler = function(_id: string, isDone: boolean): Function {
+//     return (dispatch: Dispatch):Promise<void> => {
+//         return fetch(`http://localhost:8080/task/${_id}`, {
+//             method: 'PUT',
+//             body: JSON.stringify({isDone}),
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         })
+//         .then(() => {
+//             dispatch(UpdateCheckbox(_id, isDone));
+//         });
+//     }
+// }
 
-export const getTodoData = (): AppThunk => {
-    return (dispatch: Dispatch):Promise<void> => {
+export const getTodoData = (): any => {
+    return (dispatch: Dispatch, state: Store):Promise<void> => {
         dispatch(FetchStarted());
         return fetch('http://localhost:8080/tasks')
             .then((response: Response) => response.json())
@@ -39,7 +37,7 @@ export const getTodoData = (): AppThunk => {
             })
             .then(()=>{
                 // обертка над промисами чтобы было задержка
-                setTimeout(()=>dispatch(DataReceived()), 0);
+                setTimeout(()=>dispatch(DataReceived()), 1000);
             })
             .catch((err)=>{
                 dispatch(DataError(err));
@@ -47,16 +45,16 @@ export const getTodoData = (): AppThunk => {
     }
 }
 
-export const deleteTask = function(_id: string) : Function {
-    return (dispatch: Dispatch):Promise<void> => {
-            return fetch(`http://localhost:8080/task/${_id}`, {
-            method: 'DELETE',
-        })
-        .then(() => {
-            dispatch(UpdateTodo(_id));
-        });
-    }
-}
+// export const deleteTask = function(_id: string) : Function {
+//     return (dispatch: Dispatch):Promise<void> => {
+//             return fetch(`http://localhost:8080/task/${_id}`, {
+//             method: 'DELETE',
+//         })
+//         .then(() => {
+//             dispatch(UpdateTodo(_id));
+//         });
+//     }
+// }
 
 export const addTask = function(
         title: string,
