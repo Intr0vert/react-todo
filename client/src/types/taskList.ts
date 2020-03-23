@@ -1,5 +1,5 @@
-import { Todo } from '../types/todos';
+import { TodoState } from "../types/todos";
 
-export interface ITaskListProps {
-    todos: Array<Todo>
+export interface TaskListProps {
+    todos: TodoState;
 }

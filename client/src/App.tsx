@@ -15,10 +15,10 @@ import { getTodoData } from './requests/handlers';
 import TaskList from './components/TaskList/TaskList';
 // import { State } from './types/state';
 import { TodoState } from './types/todos';
-import { IAppProps } from './types/app';
+import { AppProps } from './types/app';
 import Sort from './components/Sort/Sort';
 
-class App extends Component<IAppProps, TodoState> {
+class App extends Component<AppProps, TodoState> {
     componentDidMount() {
         this.props.dispatch(getTodoData());
     }
@@ -26,9 +26,9 @@ class App extends Component<IAppProps, TodoState> {
     render(): JSX.Element {
         return (
             <div className="todo--wrapper">
-                <Sort todos={this.props}/>
+                <Sort todos={this.props.todos}/>
                 <h1>TODO: </h1>
-                <TaskList todos={this.props} />
+                <TaskList todos={this.props.todos} />
                 <AddTask/>
             </div>
         )
@@ -38,10 +38,12 @@ class App extends Component<IAppProps, TodoState> {
 export default connect(
     (state: TodoState)=> {
         return {
-            data: state.data,
-            isLoading: state.isLoading,
-            error: state.error,
-            showAll: state.showAll,
+            todos: {
+                data: state.data,
+                isLoading: state.isLoading,
+                error: state.error,
+                showAll: state.showAll,
+            }
         }
     },
     (dispatch: Dispatch)=> ({
