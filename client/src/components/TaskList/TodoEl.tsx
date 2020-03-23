@@ -1,11 +1,8 @@
 import React from 'react';
-// import {checkboxHandler, deleteTask} from '../../requests/handlers';
-// import {useDispatch} from 'react-redux';
 import { ITodoElProps } from '../../types/todoEl';
 
 export default function TodoEl(props: ITodoElProps): JSX.Element {
     const todo = props.todo;
-    // const dispatch = useDispatch();
     return <div className="todo--el">
         <h4>{todo.title}</h4>
         <p>{todo.description}</p>

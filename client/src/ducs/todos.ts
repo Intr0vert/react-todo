@@ -1,5 +1,10 @@
-import { State } from '../types/state';
-import { AddTodoAction, Todo, TodoAction } from '../types/todos';
+import { TodoState } from '../types/todos';
+import {
+    AddTodoAction, 
+    Todo, 
+    TodoAction, 
+    SortChangeTodoAction
+} from '../types/todos';
 
 export const FETCH_STARTED = "FETCH_STARTED";
 export const DATA_RECEIVED = "DATA_RECEIVED";
@@ -7,6 +12,7 @@ export const DATA_ERROR = "DATA_ERROR";
 export const ADD_TODO = "ADD_TODO";
 export const DELETE_TODO = "DELETE_TODO";
 export const CHANGE_CHECKBOX = "CHANGE_CHECKBOX";
+export const SORT_CHANGE = "SORT_CHANGE";
 
 const FetchStarted = (): any => ({
     type: FETCH_STARTED,
@@ -37,52 +43,55 @@ const AddTodo = (todo: Todo): AddTodoAction => ({
     payload: todo
 });
 
+const SortChange = (): SortChangeTodoAction => ({
+    type: SORT_CHANGE,
+    payload: null
+});
+
 const initialState = {
-    todos: {
-        data: [],
-        isLoading: false,
-        error: false,
-        showAll: true,
-    }
+    data: [],
+    isLoading: false,
+    error: false,
+    showAll: true,
 }
 
-export default function todos(state: State = initialState, action: TodoAction) {
+export default function todos(state: TodoState = initialState, action: TodoAction) {
     switch(action.type) {
+        case SORT_CHANGE: 
+            return {
+                data: state.data,
+                isLoading: state.isLoading,
+                error: state.error,
+                showAll: !state.showAll,
+            };
         case FETCH_STARTED:
             return {
-                todos: {
-                    data: state.todos.data,
-                    isLoading: action.payload.isLoading,
-                    error: state.todos.error,
-                    showAll: state.todos.showAll,
-                }
+                data: state.data,
+                isLoading: action.payload.isLoading,
+                error: state.error,
+                showAll: state.showAll,
             };
         case DATA_RECEIVED:
             return {
-                todos: {
-                    data: state.todos.data,
-                    isLoading: action.payload.isLoading,
-                    error: state.todos.error,
-                    showAll: state.todos.showAll,
-                }
+                data: state.data,
+                isLoading: action.payload.isLoading,
+                error: state.error,
+                showAll: state.showAll,
             };
         case DATA_ERROR:
             return {
-                todos: {
-                    data: state.todos.data,
-                    isLoading: action.payload.isLoading,
-                    error: state.todos.error,
-                    showAll: state.todos.showAll,
-                }
+                data: state.data,
+                isLoading: action.payload.isLoading,
+                error: state.error,
+                showAll: state.showAll,
             };
         case ADD_TODO:
+            console.log(action);
             return {
-                todos: {
-                    data: [...state.todos.data, action.payload],
-                    isLoading: state.todos.isLoading,
-                    error: state.todos.error,
-                    showAll: state.todos.showAll,
-                }
+                data: [...state.data, action.payload],
+                isLoading: state.isLoading,
+                error: state.error,
+                showAll: state.showAll,
             }
         default:
             return state;
@@ -93,5 +102,6 @@ export {
     AddTodo,
     FetchStarted,
     DataReceived,
-    DataError
+    DataError,
+    SortChange
 }

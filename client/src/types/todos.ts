@@ -7,6 +7,7 @@ import {
     FETCH_STARTED,
     DATA_RECEIVED,
     DATA_ERROR,
+    SORT_CHANGE,
 } from '../ducs/todos';
 
 export interface Todo {
@@ -25,7 +26,7 @@ export interface TodoState {
 
 export interface FetchAction {
     isLoading: boolean,
-    error: boolean,
+    error: string|null,
 }
 
 export interface AbstractAction<TType, TPayload> extends Action<TType> {
@@ -38,10 +39,12 @@ export type ChangeCheckboxTodoAction = AbstractAction<typeof CHANGE_CHECKBOX, To
 export type FetchStartedTodoAction = AbstractAction<typeof FETCH_STARTED, FetchAction>;
 export type DataReceiveTodoAction = AbstractAction<typeof DATA_RECEIVED, FetchAction>;
 export type DataErrorTodoAction = AbstractAction<typeof DATA_ERROR, FetchAction>;
+export type SortChangeTodoAction = AbstractAction<typeof SORT_CHANGE, null>;
 
 export type TodoAction = AddTodoAction | 
     DeleteTodoAction | 
     ChangeCheckboxTodoAction |
     FetchStartedTodoAction |
     DataErrorTodoAction |
-    DataReceiveTodoAction;
+    DataReceiveTodoAction |
+    SortChangeTodoAction;

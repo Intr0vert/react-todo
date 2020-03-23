@@ -7,25 +7,18 @@ import {
     // UpdateTodo,
     FetchStarted,
     DataReceived,
-    DataError
+    DataError,
+    SortChange
  } from './ducs/todos';
-import {Todo} from './types/todos';
 import AddTask from './components/AddTask/AddTask';
 import { getTodoData } from './requests/handlers';
 import TaskList from './components/TaskList/TaskList';
-import { State } from './types/state';
+// import { State } from './types/state';
+import { TodoState } from './types/todos';
 import { IAppProps } from './types/app';
 import Sort from './components/Sort/Sort';
 
-class App extends Component<IAppProps, State> {
-    todos: Array<Todo>;
-
-    constructor(props: IAppProps) {
-        super(props);
-        
-        this.todos = props.todos.data;
-    }
-
+class App extends Component<IAppProps, TodoState> {
     componentDidMount() {
         this.props.dispatch(getTodoData());
     }
@@ -33,9 +26,9 @@ class App extends Component<IAppProps, State> {
     render(): JSX.Element {
         return (
             <div className="todo--wrapper">
-                <Sort/>
+                <Sort todos={this.props}/>
                 <h1>TODO: </h1>
-                <TaskList todos={this.props.todos}/>
+                <TaskList todos={this.props} />
                 <AddTask/>
             </div>
         )
@@ -43,25 +36,22 @@ class App extends Component<IAppProps, State> {
 }
 
 export default connect(
-    (state: State)=> {
+    (state: TodoState)=> {
         return {
-            todos: {
-                data: [...state.todos.data],
-                isLoading: state.todos.isLoading,
-                error: state.todos.error,
-                showAll: state.todos.showAll,
-            }
+            data: state.data,
+            isLoading: state.isLoading,
+            error: state.error,
+            showAll: state.showAll,
         }
     },
     (dispatch: Dispatch)=> ({
         dispatch,
         actions: {
             AddTodo,
-            // UpdateCheckbox,
-            // UpdateTodo,
             FetchStarted,
             DataReceived,
-            DataError
+            DataError,
+            SortChange,
         }
     })
 )(App);

@@ -1,4 +1,5 @@
 .todo--sort {
+    max-width: 350px;
     width: 50%;
     margin: 0 auto;
     margin-bottom: 25px;
