@@ -13,8 +13,11 @@ export const TaskList: React.FC<TaskListProps> = (props: TaskListProps) => {
         return (<>{
             todos.data.map((el: Todo) => (
                 (!todos.showAll && !el.isDone) || todos.showAll ?
-                <TodoEl key={el._id} todo={el} /> :
-                null))
+                <TodoEl changeCheckbox={props.changeCheckbox}
+                        deleteTaskFromList={props.deleteTaskFromList}
+                        key={el._id}
+                        todo={el} />
+                    : null))
         }</>);
         // return getTodoEl(todos);
     } else {

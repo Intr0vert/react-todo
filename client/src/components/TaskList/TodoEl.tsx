@@ -1,11 +1,10 @@
 import React from 'react';
-import {useDispatch} from 'react-redux'; 
-import { ITodoElProps } from '../../types/todoEl';
-import { deleteTask, checkboxHandler } from "../../requests/handlers";
+import { TodoElProps } from '../../types/todoEl';
 
-export const TodoEl: React.FC<ITodoElProps> = (props: ITodoElProps) => {
-  const dispatch = useDispatch();
+export const TodoEl: React.FC<TodoElProps> = (props: TodoElProps) => {
   const todo = props.todo;
+  const changeCheckbox = props.changeCheckbox;
+  const deleteTaskFromList = props.deleteTaskFromList;
   return (
     <div className="todo--el">
       <h4>{todo.title}</h4>
@@ -17,12 +16,12 @@ export const TodoEl: React.FC<ITodoElProps> = (props: ITodoElProps) => {
             : "todo--checkbox todo--undone"
         }
         onClick={() =>
-          dispatch(checkboxHandler(props.todo._id, !props.todo.isDone))
+          changeCheckbox(props.todo._id, !props.todo.isDone)
         }
       ></div>
       <div
         className="todo--delete"
-        onClick={() => dispatch(deleteTask(props.todo._id))}
+        onClick={() => deleteTaskFromList(props.todo._id)}
       ></div>
     </div>
   );

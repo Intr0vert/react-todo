@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import {addTask} from '../../requests/handlers';
 import './addTask.css';
-import {useDispatch} from 'react-redux';
+import { AddTaskProps } from '../../types/addTask';
 
-export const AddTask:React.FC = () => {
-    const dispatch = useDispatch();
+export const AddTask: React.FC<AddTaskProps> = (props: AddTaskProps) => {
+    const addTaskToList = props.addTaskToList;
     const [titleValue, changeTitle] = useState('');
     const [descriptionValue, changeDescription] = useState('');
 
@@ -18,8 +17,6 @@ export const AddTask:React.FC = () => {
             onChange={(el)=>changeDescription(el.target.value)}/>
         <button onClick={(e)=>{
             e.preventDefault();
-            dispatch(addTask(
-                titleValue,
-                descriptionValue))}}>Add</button>
+            addTaskToList(titleValue, descriptionValue )}}>Add</button>
     </form>
 }

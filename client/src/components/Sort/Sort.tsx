@@ -1,18 +1,16 @@
 import React from 'react';
 import './sort.css';
-import {useDispatch} from 'react-redux';
-import { TaskListProps } from '../../types/taskList';
+import { SortProps } from '../../types/sort';
 
-export const Sort:React.FC<TaskListProps> = (props: TaskListProps) => {
+export const Sort:React.FC<SortProps> = (props: SortProps) => {
     const todos = props.todos;
-    const dispatch = useDispatch();
+    const changeSort = props.changeSort;
     return (
         <div className="todo--sort">
             <label htmlFor="sortByAll">
                 <p>All</p>
                 <input id="sortByAll" name="sortTasks" type="radio" checked={todos.showAll}
-                    onChange={() => {
-                        dispatch({ type: 'SORT_CHANGE'})}}/>
+                    onChange={() => changeSort()}/>
             </label>
             {/* <label htmlFor="sortByDone">
                 <p>Done</p>
@@ -23,8 +21,7 @@ export const Sort:React.FC<TaskListProps> = (props: TaskListProps) => {
                 <p>Undone</p>
                 <input id="sortByUnDone" name="sortTasks" type="radio"
                     checked={!todos.showAll}
-                    onChange={() => {
-                        dispatch({ type: 'SORT_CHANGE' }) }}/>
+                    onChange={() => changeSort()}/>
             </label>
         </div>
 )}

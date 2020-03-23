@@ -9,7 +9,12 @@ import {
     SortChange
  } from './ducs/todos';
 import { AddTask } from './components/AddTask/AddTask';
-import { getTodoData } from './requests/handlers';
+import {
+    addTask,
+    getTodoData,
+    checkboxHandler,
+    deleteTask,
+} from './requests/handlers';
 import { TaskList } from './components/TaskList/TaskList';
 // import { State } from './types/state';
 import { TodoState } from './types/todos';
@@ -21,13 +26,31 @@ class App extends Component<AppProps, TodoState> {
         this.props.dispatch(getTodoData());
     }
 
+    changeSort = () => {
+        this.props.dispatch(SortChange());
+    }
+
+    addTaskToList = (titleValue: string, descriptionValue: string) => {
+        this.props.dispatch(addTask(titleValue, descriptionValue));
+    }
+
+    changeCheckbox = (_id: string, isDone: boolean) => {
+        this.props.dispatch(checkboxHandler(_id, isDone));
+    }
+
+    deleteTaskFromList = (_id: string) => {
+        this.props.dispatch(deleteTask(_id));
+    }
+
     render(): JSX.Element {
         return (
             <div className="todo--wrapper">
-                <Sort todos={this.props.todos}/>
+                <Sort changeSort={this.changeSort} todos={this.props.todos}/>
                 <h1>TODO: </h1>
-                <TaskList todos={this.props.todos} />
-                <AddTask/>
+                <TaskList deleteTaskFromList={this.deleteTaskFromList}
+                    changeCheckbox={this.changeCheckbox}
+                    todos={this.props.todos} />
+                <AddTask addTaskToList={this.addTaskToList} />
             </div>
         )
     }

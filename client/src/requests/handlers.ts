@@ -10,7 +10,7 @@ import {
 // import { AppThunk } from '../types/thunk';
 import { Todo } from '../types/todos';
 
-export const checkboxHandler = function(_id: string, isDone: boolean): Function {
+export const checkboxHandler = function(_id: string, isDone: boolean): any {
     return (dispatch: Dispatch):Promise<void> => {
         return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'PUT',
@@ -43,7 +43,7 @@ export const getTodoData = (): any => {
     }
 }
 
-export const deleteTask = function(_id: string) : Function {
+export const deleteTask = function(_id: string) : any {
     return (dispatch: Dispatch):Promise<void> => {
             return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'DELETE',
@@ -57,7 +57,7 @@ export const deleteTask = function(_id: string) : Function {
 export const addTask = function(
         title: string,
         description: string
-    ) : Function {
+    ) : any {
     return (dispatch: Dispatch):Promise<void> => {
         return fetch(`http://localhost:8080/task`, {
             method: 'POST',
