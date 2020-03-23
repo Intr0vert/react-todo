@@ -1,39 +1,37 @@
-import { Dispatch, Store } from 'redux';
+import { Dispatch } from 'redux';
 import {
     AddTodo,
     FetchStarted,
     DataReceived,
-    DataError
-    // UpdateCheckbox,
-    // UpdateTodo,
+    DataError,
+    UpdateCheckbox,
+    DeleteTodo,
 } from '../ducs/todos';
 // import { AppThunk } from '../types/thunk';
 import { Todo } from '../types/todos';
 
-// export const checkboxHandler = function(_id: string, isDone: boolean): Function {
-//     return (dispatch: Dispatch):Promise<void> => {
-//         return fetch(`http://localhost:8080/task/${_id}`, {
-//             method: 'PUT',
-//             body: JSON.stringify({isDone}),
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             }
-//         })
-//         .then(() => {
-//             dispatch(UpdateCheckbox(_id, isDone));
-//         });
-//     }
-// }
+export const checkboxHandler = function(_id: string, isDone: boolean): Function {
+    return (dispatch: Dispatch):Promise<void> => {
+        return fetch(`http://localhost:8080/task/${_id}`, {
+            method: 'PUT',
+            body: JSON.stringify({isDone}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(() => {
+            dispatch(UpdateCheckbox(_id, isDone));
+        });
+    }
+}
 
 export const getTodoData = (): any => {
-    return (dispatch: Dispatch, state: Store):Promise<void> => {
+    return (dispatch: Dispatch):Promise<void> => {
         dispatch(FetchStarted());
         return fetch('http://localhost:8080/tasks')
             .then((response: Response) => response.json())
             .then((todos: Array<Todo>) => {
-                for (let todo of todos) {
-                    dispatch(AddTodo(todo));
-                }
+                dispatch(AddTodo(...todos));
             })
             .then(()=>{
                 // обертка над промисами чтобы было задержка
@@ -45,16 +43,16 @@ export const getTodoData = (): any => {
     }
 }
 
-// export const deleteTask = function(_id: string) : Function {
-//     return (dispatch: Dispatch):Promise<void> => {
-//             return fetch(`http://localhost:8080/task/${_id}`, {
-//             method: 'DELETE',
-//         })
-//         .then(() => {
-//             dispatch(UpdateTodo(_id));
-//         });
-//     }
-// }
+export const deleteTask = function(_id: string) : Function {
+    return (dispatch: Dispatch):Promise<void> => {
+            return fetch(`http://localhost:8080/task/${_id}`, {
+            method: 'DELETE',
+        })
+        .then(() => {
+            dispatch(DeleteTodo(_id));
+        });
+    }
+}
 
 export const addTask = function(
         title: string,

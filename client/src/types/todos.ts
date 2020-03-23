@@ -20,7 +20,7 @@ export interface Todo {
 export interface TodoState {
     data: Todo[];
     isLoading: boolean;
-    error: boolean;
+    error: string|null;
     showAll: boolean;
 }
 
@@ -33,9 +33,14 @@ export interface AbstractAction<TType, TPayload> extends Action<TType> {
     payload: TPayload;
 }
 
-export type AddTodoAction = AbstractAction<typeof ADD_TODO, Todo>;
-export type DeleteTodoAction = AbstractAction<typeof DELETE_TODO, Todo>;
-export type ChangeCheckboxTodoAction = AbstractAction<typeof CHANGE_CHECKBOX, Todo>;
+export interface CheckboxChange {
+    _id: string,
+    isDone: boolean;
+}
+
+export type AddTodoAction = AbstractAction<typeof ADD_TODO, Todo[]>;
+export type DeleteTodoAction = AbstractAction<typeof DELETE_TODO, string>;
+export type ChangeCheckboxTodoAction = AbstractAction<typeof CHANGE_CHECKBOX, CheckboxChange>;
 export type FetchStartedTodoAction = AbstractAction<typeof FETCH_STARTED, FetchAction>;
 export type DataReceiveTodoAction = AbstractAction<typeof DATA_RECEIVED, FetchAction>;
 export type DataErrorTodoAction = AbstractAction<typeof DATA_ERROR, FetchAction>;

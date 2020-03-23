@@ -9,9 +9,11 @@
 
 .todo--sort input {
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .todo--sort label {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }

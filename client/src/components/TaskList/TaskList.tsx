@@ -20,7 +20,7 @@ export default function TaskList(props: any): any {
                 } else if (todos.showAll) {
                     return <TodoEl key={el._id} todo={el}/>
                 }
-                return false;
+                return null;
             })}
         </>
     } else {

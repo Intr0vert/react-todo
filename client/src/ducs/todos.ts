@@ -1,10 +1,16 @@
 import { TodoState } from '../types/todos';
 import {
-    AddTodoAction, 
-    Todo, 
-    TodoAction, 
-    SortChangeTodoAction
-} from '../types/todos';
+  AddTodoAction,
+  Todo,
+  TodoAction,
+  SortChangeTodoAction,
+  DeleteTodoAction,
+  FetchStartedTodoAction,
+  DataReceiveTodoAction,
+  DataErrorTodoAction,
+  ChangeCheckboxTodoAction,
+  CheckboxChange,
+} from "../types/todos";
 
 export const FETCH_STARTED = "FETCH_STARTED";
 export const DATA_RECEIVED = "DATA_RECEIVED";
@@ -14,7 +20,7 @@ export const DELETE_TODO = "DELETE_TODO";
 export const CHANGE_CHECKBOX = "CHANGE_CHECKBOX";
 export const SORT_CHANGE = "SORT_CHANGE";
 
-const FetchStarted = (): any => ({
+const FetchStarted = (): FetchStartedTodoAction => ({
     type: FETCH_STARTED,
     payload: {
         isLoading: true,
@@ -22,7 +28,7 @@ const FetchStarted = (): any => ({
     }
 });
 
-const DataReceived = (): any => ({
+const DataReceived = (): DataReceiveTodoAction => ({
     type: DATA_RECEIVED,
     payload: {
         isLoading: false,
@@ -30,7 +36,7 @@ const DataReceived = (): any => ({
     }
 });
 
-const DataError = (error: string): any => ({
+const DataError = (error: string): DataErrorTodoAction => ({
     type: DATA_ERROR,
     payload: {
         isLoading: false,
@@ -38,9 +44,22 @@ const DataError = (error: string): any => ({
     }
 });
 
-const AddTodo = (todo: Todo): AddTodoAction => ({
+const AddTodo = (...todo: Todo[]): AddTodoAction => ({
     type: ADD_TODO,
     payload: todo
+});
+
+const DeleteTodo = (_id: string): DeleteTodoAction => ({
+    type: DELETE_TODO,
+    payload: _id
+});
+
+const UpdateCheckbox = (_id: string, isDone: boolean): ChangeCheckboxTodoAction => ({
+    type: CHANGE_CHECKBOX,
+    payload: {
+        _id,
+        isDone
+    }
 });
 
 const SortChange = (): SortChangeTodoAction => ({
@@ -51,7 +70,7 @@ const SortChange = (): SortChangeTodoAction => ({
 const initialState = {
     data: [],
     isLoading: false,
-    error: false,
+    error: null,
     showAll: true,
 }
 
@@ -59,9 +78,7 @@ export default function todos(state: TodoState = initialState, action: TodoActio
     switch(action.type) {
         case SORT_CHANGE: 
             return {
-                data: state.data,
-                isLoading: state.isLoading,
-                error: state.error,
+                ...state,
                 showAll: !state.showAll,
             };
         case FETCH_STARTED:
@@ -75,7 +92,7 @@ export default function todos(state: TodoState = initialState, action: TodoActio
             return {
                 data: state.data,
                 isLoading: action.payload.isLoading,
-                error: state.error,
+                error: null,
                 showAll: state.showAll,
             };
         case DATA_ERROR:
@@ -86,20 +103,49 @@ export default function todos(state: TodoState = initialState, action: TodoActio
                 showAll: state.showAll,
             };
         case ADD_TODO:
-            console.log(action);
             return {
-                data: [...state.data, action.payload],
+                data: [...state.data, ...action.payload],
                 isLoading: state.isLoading,
                 error: state.error,
                 showAll: state.showAll,
             }
+        case DELETE_TODO:
+            return {
+                data: deleteTodo(state.data, action.payload),
+                isLoading: state.isLoading,
+                error: state.error,
+                showAll: state.showAll
+            };
+        case CHANGE_CHECKBOX:
+            return {
+                data: changeCheckbox(state.data, action.payload),
+                isLoading: state.isLoading,
+                error: state.error,
+                showAll: state.showAll
+            };
         default:
             return state;
     }
 }
 
+const deleteTodo = (todos: Todo[], _id: string) => {
+    return todos.filter((el)=>el._id === _id ? null : el);
+};
+
+const changeCheckbox = (todos: Todo[], payload: CheckboxChange) => {
+  return todos.map(el => {
+    if (el._id === payload._id) {
+      el.isDone = payload.isDone;
+    }
+
+    return el;
+  });
+};
+
 export {
     AddTodo,
+    DeleteTodo,
+    UpdateCheckbox,
     FetchStarted,
     DataReceived,
     DataError,
