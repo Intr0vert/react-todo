@@ -3,7 +3,7 @@ import {addTask} from '../../requests/handlers';
 import './addTask.css';
 import {useDispatch} from 'react-redux';
 
-export default function AddTask(): JSX.Element {
+export const AddTask:React.FC = () => {
     const dispatch = useDispatch();
     const [titleValue, changeTitle] = useState('');
     const [descriptionValue, changeDescription] = useState('');

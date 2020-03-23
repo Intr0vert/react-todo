@@ -3,20 +3,18 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { 
     AddTodo,
-    // UpdateCheckbox,
-    // UpdateTodo,
     FetchStarted,
     DataReceived,
     DataError,
     SortChange
  } from './ducs/todos';
-import AddTask from './components/AddTask/AddTask';
+import { AddTask } from './components/AddTask/AddTask';
 import { getTodoData } from './requests/handlers';
-import TaskList from './components/TaskList/TaskList';
+import { TaskList } from './components/TaskList/TaskList';
 // import { State } from './types/state';
 import { TodoState } from './types/todos';
 import { AppProps } from './types/app';
-import Sort from './components/Sort/Sort';
+import { Sort } from './components/Sort/Sort';
 
 class App extends Component<AppProps, TodoState> {
     componentDidMount() {

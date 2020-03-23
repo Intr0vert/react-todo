@@ -1,8 +1,9 @@
 import React from 'react';
 import './sort.css';
 import {useDispatch} from 'react-redux';
+import { TaskListProps } from '../../types/taskList';
 
-export default function Sort(props: any): any {
+export const Sort:React.FC<TaskListProps> = (props: TaskListProps) => {
     const todos = props.todos;
     const dispatch = useDispatch();
     return (
