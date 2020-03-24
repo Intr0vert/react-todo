@@ -1,10 +1,14 @@
 import React from 'react';
-import { TodoElProps } from '../../types/todoEl';
+import { Todo } from '../../types/todos';
+
+interface TodoElProps {
+  todo: Todo;
+  changeCheckbox: (_id: string, isDone: boolean) => void;
+  deleteTaskFromList: (_id: string) => void;
+}
 
 export const TodoEl: React.FC<TodoElProps> = (props: TodoElProps) => {
-  const todo = props.todo;
-  const changeCheckbox = props.changeCheckbox;
-  const deleteTaskFromList = props.deleteTaskFromList;
+  const {todo, changeCheckbox, deleteTaskFromList} = props;
   return (
     <div className="todo--el">
       <h4>{todo.title}</h4>
@@ -16,12 +20,12 @@ export const TodoEl: React.FC<TodoElProps> = (props: TodoElProps) => {
             : "todo--checkbox todo--undone"
         }
         onClick={() =>
-          changeCheckbox(props.todo._id, !props.todo.isDone)
+          changeCheckbox(todo._id, !todo.isDone)
         }
       ></div>
       <div
         className="todo--delete"
-        onClick={() => deleteTaskFromList(props.todo._id)}
+        onClick={() => deleteTaskFromList(todo._id)}
       ></div>
     </div>
   );

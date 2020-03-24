@@ -1,6 +1,11 @@
 import React from 'react';
 import './sort.css';
-import { SortProps } from '../../types/sort';
+import { TodoState } from '../../types/todos';
+
+interface SortProps {
+    todos: TodoState;
+    changeSort: () => void;
+}
 
 export const Sort:React.FC<SortProps> = (props: SortProps) => {
     const todos = props.todos;

@@ -1,9 +1,14 @@
 import React from 'react';
 import Preloader from '../Preloader/Preloader';
 import './taskstyle.css';
-import { TaskListProps } from "../../types/taskList";
+import { TodoState, Todo } from "../../types/todos";
 import { TodoEl } from './TodoEl';
-import { Todo } from "../../types/todos";
+
+interface TaskListProps {
+    todos: TodoState;
+    changeCheckbox: (_id: string, isDone: boolean) => void;
+    deleteTaskFromList: (_id: string) => void;
+}
 
 export const TaskList: React.FC<TaskListProps> = (props: TaskListProps) => {
     const todos = props.todos;

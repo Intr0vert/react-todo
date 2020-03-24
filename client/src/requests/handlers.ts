@@ -7,7 +7,7 @@ import {
     UpdateCheckbox,
     DeleteTodo,
 } from '../ducs/todos';
-// import { AppThunk } from '../types/thunk';
+// import { getTodoDataThunk } from '../types/thunk';
 import { Todo } from '../types/todos';
 
 export const checkboxHandler = function(_id: string, isDone: boolean): any {

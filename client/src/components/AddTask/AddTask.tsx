@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import './addTask.css';
-import { AddTaskProps } from '../../types/addTask';
+
+interface AddTaskProps {
+    addTaskToList: (titleValue: string, descriptionValue: string) => void;
+}
 
 export const AddTask: React.FC<AddTaskProps> = (props: AddTaskProps) => {
-    const addTaskToList = props.addTaskToList;
+    const {addTaskToList} = props;
     const [titleValue, changeTitle] = useState('');
     const [descriptionValue, changeDescription] = useState('');
 

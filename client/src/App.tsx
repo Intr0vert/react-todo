@@ -18,8 +18,12 @@ import {
 import { TaskList } from './components/TaskList/TaskList';
 // import { State } from './types/state';
 import { TodoState } from './types/todos';
-import { AppProps } from './types/app';
 import { Sort } from './components/Sort/Sort';
+
+interface AppProps {
+    todos: TodoState,
+    dispatch: Dispatch,
+}
 
 class App extends Component<AppProps, TodoState> {
     componentDidMount() {
