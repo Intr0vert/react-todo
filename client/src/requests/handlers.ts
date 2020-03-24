@@ -1,4 +1,3 @@
-import { Dispatch } from 'redux';
 import {
     AddTodo,
     FetchStarted,
@@ -7,11 +6,14 @@ import {
     UpdateCheckbox,
     DeleteTodo,
 } from '../ducs/todos';
-// import { getTodoDataThunk } from '../types/thunk';
-import { Todo } from '../types/todos';
+import { Todo, TodoState } from '../types/todos';
+// import { State } from '../types/state';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
+import { DeleteTaskAction, GetTodoDataAction, CheckboxHandlerAction, AddTaskAction } from '../types/thunk';
 
-export const checkboxHandler = function(_id: string, isDone: boolean): any {
-    return (dispatch: Dispatch):Promise<void> => {
+export const checkboxHandler = function (_id: string, isDone: boolean) {
+    return (dispatch: ThunkDispatch<TodoState, unknown, Action<CheckboxHandlerAction>>) => {
         return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'PUT',
             body: JSON.stringify({isDone}),
@@ -20,13 +22,15 @@ export const checkboxHandler = function(_id: string, isDone: boolean): any {
             }
         })
         .then(() => {
-            dispatch(UpdateCheckbox(_id, isDone));
+            console.log(
+            dispatch(UpdateCheckbox(_id, isDone))
+            )
         });
     }
 }
 
-export const getTodoData = (): any => {
-    return (dispatch: Dispatch):Promise<void> => {
+export const getTodoData = () => {
+    return (dispatch: ThunkDispatch<TodoState, unknown, Action<GetTodoDataAction>>) => {
         dispatch(FetchStarted());
         return fetch('http://localhost:8080/tasks')
             .then((response: Response) => response.json())
@@ -43,8 +47,8 @@ export const getTodoData = (): any => {
     }
 }
 
-export const deleteTask = function(_id: string) : any {
-    return (dispatch: Dispatch):Promise<void> => {
+export const deleteTask = function (_id: string) {
+    return (dispatch: ThunkDispatch<TodoState, unknown, Action<DeleteTaskAction>>) => {
             return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'DELETE',
         })
@@ -57,8 +61,8 @@ export const deleteTask = function(_id: string) : any {
 export const addTask = function(
         title: string,
         description: string
-    ) : any {
-    return (dispatch: Dispatch):Promise<void> => {
+    ) {
+    return (dispatch: ThunkDispatch<TodoState, unknown, Action<AddTaskAction>>) => {
         return fetch(`http://localhost:8080/task`, {
             method: 'POST',
             body: JSON.stringify({

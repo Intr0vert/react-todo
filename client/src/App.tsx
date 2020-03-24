@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import { 
     AddTodo,
     FetchStarted,
@@ -19,10 +18,12 @@ import { TaskList } from './components/TaskList/TaskList';
 // import { State } from './types/state';
 import { TodoState } from './types/todos';
 import { Sort } from './components/Sort/Sort';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
 
 interface AppProps {
     todos: TodoState,
-    dispatch: Dispatch,
+    dispatch: ThunkDispatch<TodoState, unknown, any>,
 }
 
 class App extends Component<AppProps, TodoState> {
@@ -71,7 +72,7 @@ export default connect(
             }
         }
     },
-    (dispatch: Dispatch)=> ({
+    (dispatch: ThunkDispatch<TodoState, unknown, Action>)=> ({
         dispatch,
         actions: {
             AddTodo,
