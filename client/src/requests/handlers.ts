@@ -22,9 +22,7 @@ export const checkboxHandler = function (_id: string, isDone: boolean) {
             }
         })
         .then(() => {
-            console.log(
-            dispatch(UpdateCheckbox(_id, isDone))
-            )
+            dispatch(UpdateCheckbox(_id, isDone));
         });
     }
 }

@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { 
-    AddTodo,
-    FetchStarted,
-    DataReceived,
-    DataError,
-    SortChange
- } from './ducs/todos';
+import { SortChange } from './ducs/todos';
 import { AddTask } from './components/AddTask/AddTask';
 import {
     addTask,
@@ -15,15 +9,15 @@ import {
     deleteTask,
 } from './requests/handlers';
 import { TaskList } from './components/TaskList/TaskList';
-// import { State } from './types/state';
 import { TodoState } from './types/todos';
 import { Sort } from './components/Sort/Sort';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
+import { ThunkRootAction } from './types/thunk';
 
 interface AppProps {
     todos: TodoState,
-    dispatch: ThunkDispatch<TodoState, unknown, any>,
+    dispatch: ThunkDispatch<TodoState, unknown, Action<ThunkRootAction>>,
 }
 
 class App extends Component<AppProps, TodoState> {
@@ -62,7 +56,7 @@ class App extends Component<AppProps, TodoState> {
 }
 
 export default connect(
-    (state: TodoState)=> {
+    (state: TodoState) => {
         return {
             todos: {
                 data: state.data,
@@ -71,15 +65,5 @@ export default connect(
                 showAll: state.showAll,
             }
         }
-    },
-    (dispatch: ThunkDispatch<TodoState, unknown, Action>)=> ({
-        dispatch,
-        actions: {
-            AddTodo,
-            FetchStarted,
-            DataReceived,
-            DataError,
-            SortChange,
-        }
-    })
+    }
 )(App);
