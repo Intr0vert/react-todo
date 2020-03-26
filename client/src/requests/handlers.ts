@@ -18,6 +18,8 @@ import {
 
 export const checkboxHandler = function (_id: string, isDone: boolean) {
     return (dispatch: CommonThunkDispatch<CheckboxHandlerAction>) => {
+        dispatch(FetchStarted());
+
         return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'PUT',
             body: JSON.stringify({isDone}),
@@ -25,8 +27,18 @@ export const checkboxHandler = function (_id: string, isDone: boolean) {
                 'Content-Type': 'application/json'
             }
         })
-        .then(() => {
+        .then((response: Response) => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+
             dispatch(UpdateCheckbox(_id, isDone));
+        })
+        .then(()=>{
+            dispatch(DataReceived());
+        })
+        .catch((err) => {
+            dispatch(DataError(err.toString()));
         });
     }
 }
@@ -35,27 +47,45 @@ export const getTodoData = () => {
     return (dispatch: CommonThunkDispatch<GetTodoDataAction>) => {
         dispatch(FetchStarted());
         return fetch('http://localhost:8080/tasks')
-            .then((response: Response) => response.json())
+            .then((response: Response) => {
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+
+                return response.json();
+            })
             .then((todos: Array<Todo>) => {
                 dispatch(AddTodo(...todos));
             })
             .then(()=>{
                 // обертка над промисами чтобы было задержка
-                setTimeout(()=>dispatch(DataReceived()), 1000);
+                dispatch(DataReceived());
             })
-            .catch((err)=>{
-                dispatch(DataError(err));
+            .catch((err) => {
+                dispatch(DataError(err.toString()));
             });
     }
 }
 
 export const deleteTask = function (_id: string) {
     return (dispatch: CommonThunkDispatch<DeleteTaskAction>) => {
-            return fetch(`http://localhost:8080/task/${_id}`, {
+        dispatch(FetchStarted());
+        
+        return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'DELETE',
         })
-        .then(() => {
+        .then((response: Response) => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+
             dispatch(DeleteTodo(_id));
+        })
+        .then(() => {
+            dispatch(DataReceived());
+        })
+        .catch((err) => {
+            dispatch(DataError(err.toString()));
         });
     }
 }
@@ -76,9 +106,12 @@ export const addTask = function(
                 'Content-Type': 'application/json'
             }
         })
-        .then((task) => {
+        .then((response: Response) => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
             dispatch(FetchStarted());
-            return task.json();
+            return response.json();
         })
         .then((_id)=>{
             dispatch(
@@ -92,8 +125,8 @@ export const addTask = function(
         .then(()=>{
             dispatch(DataReceived());
         })
-        .catch(()=> {
-            dispatch(DataError('Problem with adding tasks'));
+        .catch((err)=> {
+            dispatch(DataError(err.toString()));
         });
     }
 }

@@ -3,21 +3,19 @@ import { TodoState } from "./todos";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
 
-export type CheckboxHandlerAction = typeof CHANGE_CHECKBOX;
-
-export type GetTodoDataAction =
-    typeof ADD_TODO |
+type GetDataType = 
     typeof DATA_RECEIVED |
     typeof DATA_ERROR |
     typeof FETCH_STARTED;
 
-export type DeleteTaskAction = typeof DELETE_TODO;
+export type CheckboxHandlerAction = typeof CHANGE_CHECKBOX | GetDataType;
 
-export type AddTaskAction = 
-    typeof ADD_TODO |
-    typeof DATA_RECEIVED |
-    typeof DATA_ERROR |
-    typeof FETCH_STARTED;
+export type GetTodoDataAction = typeof ADD_TODO | GetDataType;
+
+
+export type DeleteTaskAction = typeof DELETE_TODO | GetDataType;
+    
+export type AddTaskAction = typeof ADD_TODO | GetDataType;
 
 export type SortAction = typeof SORT_CHANGE;
 

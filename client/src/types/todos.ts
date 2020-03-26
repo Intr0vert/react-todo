@@ -46,7 +46,8 @@ export type DataReceiveTodoAction = AbstractAction<typeof DATA_RECEIVED, FetchAc
 export type DataErrorTodoAction = AbstractAction<typeof DATA_ERROR, FetchAction>;
 export type SortChangeTodoAction = AbstractAction<typeof SORT_CHANGE, null>;
 
-export type TodoAction = AddTodoAction | 
+export type TodoAction = 
+    AddTodoAction | 
     DeleteTodoAction | 
     ChangeCheckboxTodoAction |
     FetchStartedTodoAction |

@@ -12,7 +12,7 @@ import { TodoState, SortChangeTodoAction } from './types/todos';
 import { Sort } from './components/Sort/Sort';
 import { CommonThunkDispatch } from './types/thunk';
 import { SortChange } from './ducs/todos';
-import { getSortedTodos } from './selectors/todoEl';
+import { getSortedTodos } from './selectors/sortedTodos';
 
 interface AppProps extends TodoState {
     addTask: (title: string, description: string) => void;

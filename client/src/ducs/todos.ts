@@ -99,7 +99,7 @@ export default function todos(state: TodoState = initialState, action: TodoActio
             return {
                 data: state.data,
                 isLoading: action.payload.isLoading,
-                error: state.error,
+                error: action.payload.error,
                 showAll: state.showAll,
             };
         case ADD_TODO:
