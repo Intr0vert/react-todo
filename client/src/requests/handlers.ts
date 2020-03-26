@@ -7,17 +7,16 @@ import {
     DeleteTodo,
 } from '../ducs/todos';
 import { Todo } from '../types/todos';
-// import { State } from '../types/state';
 import {
-    DeleteTaskAction,
-    GetTodoDataAction,
-    CheckboxHandlerAction,
-    AddTaskAction,
+    DeleteTaskThunk,
+    GetTodoDataThunk,
+    CheckboxHandlerThunk,
+    AddTaskThunk,
     CommonThunkDispatch
 } from '../types/thunk';
 
 export const checkboxHandler = function (_id: string, isDone: boolean) {
-    return (dispatch: CommonThunkDispatch<CheckboxHandlerAction>) => {
+    return (dispatch: CommonThunkDispatch<CheckboxHandlerThunk>) => {
         dispatch(FetchStarted());
 
         return fetch(`http://localhost:8080/task/${_id}`, {
@@ -44,7 +43,7 @@ export const checkboxHandler = function (_id: string, isDone: boolean) {
 }
 
 export const getTodoData = () => {
-    return (dispatch: CommonThunkDispatch<GetTodoDataAction>) => {
+    return (dispatch: CommonThunkDispatch<GetTodoDataThunk>) => {
         dispatch(FetchStarted());
         return fetch('http://localhost:8080/tasks')
             .then((response: Response) => {
@@ -68,7 +67,7 @@ export const getTodoData = () => {
 }
 
 export const deleteTask = function (_id: string) {
-    return (dispatch: CommonThunkDispatch<DeleteTaskAction>) => {
+    return (dispatch: CommonThunkDispatch<DeleteTaskThunk>) => {
         dispatch(FetchStarted());
         
         return fetch(`http://localhost:8080/task/${_id}`, {
@@ -94,7 +93,7 @@ export const addTask = function(
         title: string,
         description: string
     ) {
-    return (dispatch: CommonThunkDispatch<AddTaskAction>) => {
+    return (dispatch: CommonThunkDispatch<AddTaskThunk>) => {
         return fetch(`http://localhost:8080/task`, {
             method: 'POST',
             body: JSON.stringify({

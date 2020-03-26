@@ -1,5 +1,3 @@
-import { Action } from 'redux';
-
 import { 
     ADD_TODO,
     DELETE_TODO,
@@ -9,6 +7,7 @@ import {
     DATA_ERROR,
     SORT_CHANGE,
 } from '../ducs/todos';
+import { AbstractAction } from './action';
 
 export interface Todo {
     _id: string;
@@ -27,10 +26,6 @@ export interface TodoState {
 export interface FetchAction {
     isLoading: boolean,
     error: string|null,
-}
-
-export interface AbstractAction<TType, TPayload> extends Action<TType> {
-    payload: TPayload;
 }
 
 export interface CheckboxChange {

@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
-import { TodoState, Todo } from '../types/todos';
+import { Todo } from '../types/todos';
+import { State } from '../types/state';
 
-const getSort = (state: TodoState) => state.showAll;
+const getSort = (state: State) => state.todos.showAll;
 
-const getData = (state: TodoState) => state.data;
+const getData = (state: State) => state.todos.data;
 
 export const getSortedTodos = createSelector(
     getSort,

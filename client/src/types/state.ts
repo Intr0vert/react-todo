@@ -1,12 +1,7 @@
 import { TodoState } from '../types/todos';
-// import { TodoAction } from './todos';
-// import { FetchStatus } from './preloader';
+import { FormState } from './form';
 
 export interface State {
     todos: TodoState;
+    form: FormState;
 }
-
-// export interface State {
-//     todoReducer: TodoAction;
-//     // preloaderReducer: FetchStatus;
-// }
