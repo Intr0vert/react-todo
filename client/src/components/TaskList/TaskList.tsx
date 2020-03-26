@@ -11,7 +11,7 @@ interface TaskListProps {
 }
 
 export const TaskList: React.FC<TaskListProps> = (props: TaskListProps) => {
-    const todos = props.todos;
+    const { todos } = props;
     if (todos.error) {
         return <h2 className="todo--error">{todos.error}</h2>;
     } else if (!todos.isLoading) {
@@ -24,7 +24,6 @@ export const TaskList: React.FC<TaskListProps> = (props: TaskListProps) => {
                         todo={el} />
                     : null))
         }</>);
-        // return getTodoEl(todos);
     } else {
         return <Preloader />;
     }

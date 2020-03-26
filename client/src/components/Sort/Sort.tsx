@@ -1,20 +1,19 @@
 import React from 'react';
 import './sort.css';
-import { TodoState } from '../../types/todos';
 
 interface SortProps {
-    todos: TodoState;
+    sort: boolean;
     changeSort: () => void;
 }
 
 export const Sort:React.FC<SortProps> = (props: SortProps) => {
-    const todos = props.todos;
-    const changeSort = props.changeSort;
+    const { sort, changeSort } = props;
+
     return (
         <div className="todo--sort">
             <label htmlFor="sortByAll">
                 <p>All</p>
-                <input id="sortByAll" name="sortTasks" type="radio" checked={todos.showAll}
+                <input id="sortByAll" name="sortTasks" type="radio" checked={sort}
                     onChange={() => changeSort()}/>
             </label>
             {/* <label htmlFor="sortByDone">
@@ -25,7 +24,7 @@ export const Sort:React.FC<SortProps> = (props: SortProps) => {
             <label htmlFor="sortByUnDone">
                 <p>Undone</p>
                 <input id="sortByUnDone" name="sortTasks" type="radio"
-                    checked={!todos.showAll}
+                    checked={!sort}
                     onChange={() => changeSort()}/>
             </label>
         </div>

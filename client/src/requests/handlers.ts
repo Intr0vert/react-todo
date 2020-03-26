@@ -6,14 +6,18 @@ import {
     UpdateCheckbox,
     DeleteTodo,
 } from '../ducs/todos';
-import { Todo, TodoState } from '../types/todos';
+import { Todo } from '../types/todos';
 // import { State } from '../types/state';
-import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
-import { DeleteTaskAction, GetTodoDataAction, CheckboxHandlerAction, AddTaskAction } from '../types/thunk';
+import {
+    DeleteTaskAction,
+    GetTodoDataAction,
+    CheckboxHandlerAction,
+    AddTaskAction,
+    CommonThunkDispatch
+} from '../types/thunk';
 
 export const checkboxHandler = function (_id: string, isDone: boolean) {
-    return (dispatch: ThunkDispatch<TodoState, unknown, Action<CheckboxHandlerAction>>) => {
+    return (dispatch: CommonThunkDispatch<CheckboxHandlerAction>) => {
         return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'PUT',
             body: JSON.stringify({isDone}),
@@ -28,7 +32,7 @@ export const checkboxHandler = function (_id: string, isDone: boolean) {
 }
 
 export const getTodoData = () => {
-    return (dispatch: ThunkDispatch<TodoState, unknown, Action<GetTodoDataAction>>) => {
+    return (dispatch: CommonThunkDispatch<GetTodoDataAction>) => {
         dispatch(FetchStarted());
         return fetch('http://localhost:8080/tasks')
             .then((response: Response) => response.json())
@@ -46,7 +50,7 @@ export const getTodoData = () => {
 }
 
 export const deleteTask = function (_id: string) {
-    return (dispatch: ThunkDispatch<TodoState, unknown, Action<DeleteTaskAction>>) => {
+    return (dispatch: CommonThunkDispatch<DeleteTaskAction>) => {
             return fetch(`http://localhost:8080/task/${_id}`, {
             method: 'DELETE',
         })
@@ -60,7 +64,7 @@ export const addTask = function(
         title: string,
         description: string
     ) {
-    return (dispatch: ThunkDispatch<TodoState, unknown, Action<AddTaskAction>>) => {
+    return (dispatch: CommonThunkDispatch<AddTaskAction>) => {
         return fetch(`http://localhost:8080/task`, {
             method: 'POST',
             body: JSON.stringify({

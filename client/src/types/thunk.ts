@@ -1,4 +1,7 @@
 import { DELETE_TODO, ADD_TODO, DATA_RECEIVED, DATA_ERROR, FETCH_STARTED, CHANGE_CHECKBOX, SORT_CHANGE } from "../ducs/todos";
+import { TodoState } from "./todos";
+import { ThunkDispatch } from "redux-thunk";
+import { Action } from "redux";
 
 export type CheckboxHandlerAction = typeof CHANGE_CHECKBOX;
 
@@ -24,3 +27,6 @@ export type ThunkRootAction =
     DeleteTaskAction |
     AddTaskAction |
     SortAction;
+
+export type CommonThunkDispatch<T = ThunkRootAction> = 
+    ThunkDispatch<TodoState, unknown, Action<T>>;
