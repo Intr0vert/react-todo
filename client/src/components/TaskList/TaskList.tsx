@@ -16,13 +16,12 @@ export const TaskList: React.FC<TaskListProps> = (props: TaskListProps) => {
         return <h2 className="todo--error">{todos.error}</h2>;
     } else if (!todos.isLoading) {
         return (<>{
-            todos.data.map((el: Todo) => (
-                (!todos.showAll && !el.isDone) || todos.showAll ?
+            todos.data.map((el: Todo)=>(
                 <TodoEl changeCheckbox={props.changeCheckbox}
                         deleteTaskFromList={props.deleteTaskFromList}
                         key={el._id}
                         todo={el} />
-                    : null))
+            ))
         }</>);
     } else {
         return <Preloader />;
