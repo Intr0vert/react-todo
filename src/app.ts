@@ -1,18 +1,16 @@
 /* eslint-disable indent */
 require('dotenv').config();
 
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
+import * as bodyParser from 'body-parser';
+import morgan from 'morgan';
 import express, {
-  // eslint-disable-next-line no-unused-vars
   Request,
-  // eslint-disable-next-line no-unused-vars
   Response,
  } from 'express';
 import * as taskController from './controllers/taskController';
 
 const app: express.Application = express();
-require('assert');
+import 'assert';
 
 app.use(bodyParser.urlencoded({
   extended: false,
