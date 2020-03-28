@@ -29,6 +29,26 @@ interface AppProps extends State {
 }
 
 class App extends Component<AppProps, State> {
+    checkboxHandler: (_id: string, isDone: boolean) => void;
+    sortChange: () => SortChangeTodoAction;
+    deleteTask: (_id: string) => void;
+    addTask: (title: string, description: string) => void;
+    changeTitle: (title: string) => ChangeTitleAction;
+    changeDescription: (descrption: string) => ChangeDescriptionAction;
+    changeFieldsError: (error: string | null) => ChangeFieldsErrorAction;
+
+    constructor(props: AppProps) {
+        super(props);
+
+        this.checkboxHandler = this.props.checkboxHandler.bind(this);
+        this.sortChange = this.props.SortChange.bind(this);
+        this.deleteTask = this.props.deleteTask.bind(this);
+        this.addTask = this.props.addTask.bind(this);
+        this.changeTitle = this.props.ChangeTitle.bind(this);
+        this.changeDescription = this.props.ChangeDescription.bind(this);
+        this.changeFieldsError = this.props.ChangeFieldsError.bind(this);
+    }
+
     componentDidMount() {
         this.props.getTodoData();
     }
@@ -36,24 +56,22 @@ class App extends Component<AppProps, State> {
     render(): JSX.Element {
         return (
             <div className="todo--wrapper">
-                <Sort changeSort={() => this.props.SortChange()}
+                <Sort 
+                    changeSort={this.sortChange}
                     sort={this.props.todos.showAll}/>
                 <h1>TODO: </h1>
-                <TaskList deleteTaskFromList={
-                    (_id: string) => this.props.deleteTask(_id)}
-                    changeCheckbox={
-                        (_id: string, isDone: boolean) => 
-                            this.props.checkboxHandler(_id, isDone)
-                    }
-                    todos={this.props.todos} />
-                <AddTask addTaskToList={
-                    (title: string, description: string) => 
-                        this.props.addTask(title, description)
-                    }
+                <TaskList 
+                    deleteTaskFromList={this.deleteTask}
+                    changeCheckbox={this.checkboxHandler}
+                    data={this.props.todos.data}
+                    error={this.props.todos.error}
+                    isLoading={this.props.todos.isLoading} />
+                <AddTask 
+                    addTaskToList={this.addTask}
                     form={this.props.form}
-                    changeTitle={(title: string) => this.props.ChangeTitle(title)}
-                    changeDescription={(descrption: string) => this.props.ChangeDescription(descrption)}
-                    changeFieldsError={(error: string|null) => this.props.ChangeFieldsError(error)}
+                    changeTitle={this.changeTitle}
+                    changeDescription={this.changeDescription}
+                    changeFieldsError={this.changeFieldsError}
                     />
             </div>
         )

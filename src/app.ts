@@ -41,6 +41,10 @@ app.post('/task', taskController.addTask);
 app.put('/task/:id', taskController.updateTask);
 app.delete('/task/:id', taskController.deleteTask);
 
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static('client/build'));
+// }
+
 app.listen(app.get('port'), () => {
   console.log('App is running on http://localhost:%d', app.get('port'));
 });

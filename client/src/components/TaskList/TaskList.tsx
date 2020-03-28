@@ -4,26 +4,22 @@ import './taskstyle.css';
 import { Todo } from "../../types/todos";
 import { TodoEl } from './TodoEl';
 
-interface TaskListTodos {
+interface TaskListProps {
     data: Todo[];
     isLoading: boolean;
-    error: string|null;
-}
-
-interface TaskListProps {
-    todos: TaskListTodos;
+    error: string | null;
     changeCheckbox: (_id: string, isDone: boolean) => void;
     deleteTaskFromList: (_id: string) => void;
 }
 
 export const TaskList: React.FC<TaskListProps> = (props: TaskListProps) => {
-    const { todos } = props;
+    const { data, error, isLoading } = props;
 
-    if (todos.error) {
-        return <h2 className="todo--error">{todos.error}</h2>;
-    } else if (!todos.isLoading) {
+    if (error) {
+        return <h2 className="todo--error">{error}</h2>;
+    } else if (!isLoading) {
         return (<>{
-            todos.data.map((el: Todo)=>(
+            data.map((el: Todo)=>(
                 <TodoEl changeCheckbox={props.changeCheckbox}
                         deleteTaskFromList={props.deleteTaskFromList}
                         key={el._id}
