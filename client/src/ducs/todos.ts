@@ -118,7 +118,6 @@ export default function todos(state: TodoState = initialState, action: TodoActio
             };
         case CHANGE_CHECKBOX:
             return {
-                // data: changeCheckbox(state.data, action.payload),
                 data: [...state.data.map(el => el._id === action.payload._id ?
                     { ...el, isDone: action.payload.isDone } : el)],
                 isLoading: state.isLoading,
