@@ -111,14 +111,16 @@ export default function todos(state: TodoState = initialState, action: TodoActio
             }
         case DELETE_TODO:
             return {
-                data: deleteTodo(state.data, action.payload),
+                data: [...state.data.filter((el) => el._id !== action.payload)],
                 isLoading: state.isLoading,
                 error: state.error,
                 showAll: state.showAll
             };
         case CHANGE_CHECKBOX:
             return {
-                data: changeCheckbox(state.data, action.payload),
+                // data: changeCheckbox(state.data, action.payload),
+                data: [...state.data.map(el => el._id === action.payload._id ?
+                    { ...el, isDone: action.payload.isDone } : el)],
                 isLoading: state.isLoading,
                 error: state.error,
                 showAll: state.showAll
@@ -127,20 +129,6 @@ export default function todos(state: TodoState = initialState, action: TodoActio
             return state;
     }
 }
-
-const deleteTodo = (todos: Todo[], _id: string) => {
-    return todos.filter((el)=>el._id === _id ? null : el);
-};
-
-const changeCheckbox = (todos: Todo[], payload: CheckboxChange) => {
-  return todos.map(el => {
-    if (el._id === payload._id) {
-      el.isDone = payload.isDone;
-    }
-
-    return el;
-  });
-};
 
 export {
     AddTodo,
