@@ -31,7 +31,7 @@ const ChangeFieldsError = (error: string|null): ChangeFieldsErrorAction => ({
     payload: error
 });
 
-export default function form(state: FormState = initialState, action: FormAction) {
+export default function addTodo(state: FormState = initialState, action: FormAction) {
     switch (action.type) {
         case CHANGE_TITLE:
             return {

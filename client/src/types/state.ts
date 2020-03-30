@@ -3,5 +3,6 @@ import { FormState } from './form';
 
 export interface State {
     todos: TodoState;
-    form: FormState;
+    // form: FormState;
+    form: any;
 }

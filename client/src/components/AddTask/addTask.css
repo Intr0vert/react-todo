@@ -35,3 +35,9 @@
     color: red;
     text-align: center;
 }
+
+.todo--field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

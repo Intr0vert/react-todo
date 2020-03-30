@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { AddTask } from './components/AddTask/AddTask';
+import AddTaskForm from './components/AddTask/AddTask';
 import {
     getTodoData,
     addTask,
@@ -16,6 +16,7 @@ import { getSortedTodos } from './selectors/sortedTodos';
 import { State } from './types/state';
 import { ChangeTitle, ChangeFieldsError, ChangeDescription } from './ducs/form';
 import { ChangeTitleAction, ChangeDescriptionAction, ChangeFieldsErrorAction } from './types/form';
+import { formValueSelector } from 'redux-form';
 
 interface AppProps extends State {
     addTask: (title: string, description: string) => void;
@@ -66,9 +67,11 @@ class App extends Component<AppProps, State> {
                     data={this.props.todos.data}
                     error={this.props.todos.error}
                     isLoading={this.props.todos.isLoading} />
-                <AddTask 
+                <AddTaskForm 
                     addTaskToList={this.addTask}
-                    form={this.props.form}
+                    title={this.props.form.title}
+                    description={this.props.form.description}
+                    error={this.props.form.error}
                     changeTitle={this.changeTitle}
                     changeDescription={this.changeDescription}
                     changeFieldsError={this.changeFieldsError}
@@ -78,20 +81,22 @@ class App extends Component<AppProps, State> {
     }
 }
 
+const AddTaskSelector = formValueSelector('add-task');
+
 export default connect(
     (state: State) => {
         return {
+            form: {
+                title: AddTaskSelector(state, 'title'),
+                description: AddTaskSelector(state, 'description'),
+                error: state.form.error,
+            },
             todos: {
                 data: getSortedTodos(state),
                 isLoading: state.todos.isLoading,
                 error: state.todos.error,
                 showAll: state.todos.showAll,
             },
-            form: {
-                title: state.form.title,
-                description: state.form.description,
-                error: state.form.error,
-            }
         }
     },
     (dispatch: CommonThunkDispatch) => ({
