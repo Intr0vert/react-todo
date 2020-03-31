@@ -9,7 +9,6 @@ import {
   DataReceiveTodoAction,
   DataErrorTodoAction,
   ChangeCheckboxTodoAction,
-  CheckboxChange,
 } from "../types/todos";
 
 export const FETCH_STARTED = "FETCH_STARTED";

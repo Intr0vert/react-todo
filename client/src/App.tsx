@@ -14,8 +14,6 @@ import { CommonThunkDispatch } from './types/thunk';
 import { SortChange } from './ducs/todos';
 import { getSortedTodos } from './selectors/sortedTodos';
 import { State } from './types/state';
-import { ChangeTitle, ChangeFieldsError, ChangeDescription } from './ducs/form';
-import { ChangeTitleAction, ChangeDescriptionAction, ChangeFieldsErrorAction } from './types/form';
 import { formValueSelector } from 'redux-form';
 
 interface AppProps extends State {
@@ -24,9 +22,6 @@ interface AppProps extends State {
     checkboxHandler: (_id: string, isDone: boolean) => void;
     getTodoData: () => void;
     SortChange: () => SortChangeTodoAction;
-    ChangeTitle: (title: string) => ChangeTitleAction,
-    ChangeDescription: (descrption: string) => ChangeDescriptionAction,
-    ChangeFieldsError: (error: string|null) => ChangeFieldsErrorAction,
 }
 
 class App extends Component<AppProps, State> {
@@ -34,9 +29,6 @@ class App extends Component<AppProps, State> {
     sortChange: () => SortChangeTodoAction;
     deleteTask: (_id: string) => void;
     addTask: (title: string, description: string) => void;
-    changeTitle: (title: string) => ChangeTitleAction;
-    changeDescription: (descrption: string) => ChangeDescriptionAction;
-    changeFieldsError: (error: string | null) => ChangeFieldsErrorAction;
 
     constructor(props: AppProps) {
         super(props);
@@ -45,9 +37,6 @@ class App extends Component<AppProps, State> {
         this.sortChange = this.props.SortChange.bind(this);
         this.deleteTask = this.props.deleteTask.bind(this);
         this.addTask = this.props.addTask.bind(this);
-        this.changeTitle = this.props.ChangeTitle.bind(this);
-        this.changeDescription = this.props.ChangeDescription.bind(this);
-        this.changeFieldsError = this.props.ChangeFieldsError.bind(this);
     }
 
     componentDidMount() {
@@ -71,10 +60,6 @@ class App extends Component<AppProps, State> {
                     addTaskToList={this.addTask}
                     title={this.props.form.title}
                     description={this.props.form.description}
-                    error={this.props.form.error}
-                    changeTitle={this.changeTitle}
-                    changeDescription={this.changeDescription}
-                    changeFieldsError={this.changeFieldsError}
                     />
             </div>
         )
@@ -89,7 +74,6 @@ export default connect(
             form: {
                 title: AddTaskSelector(state, 'title'),
                 description: AddTaskSelector(state, 'description'),
-                error: state.form.error,
             },
             todos: {
                 data: getSortedTodos(state),
@@ -105,8 +89,5 @@ export default connect(
         deleteTask: (_id: string) => dispatch(deleteTask(_id)),
         checkboxHandler: (_id: string, isDone: boolean) => dispatch(checkboxHandler(_id, isDone)),
         getTodoData: () => dispatch(getTodoData()),
-        ChangeTitle: (title: string) => dispatch(ChangeTitle(title)),
-        ChangeDescription: (description: string) => dispatch(ChangeDescription(description)),
-        ChangeFieldsError: (error: string|null) => dispatch(ChangeFieldsError(error)),
     })
 )(App);

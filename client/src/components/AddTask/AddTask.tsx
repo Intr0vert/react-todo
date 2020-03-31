@@ -1,45 +1,47 @@
 import React from 'react';
 import './addTask.css';
-// import { FormState, ChangeTitleAction, ChangeDescriptionAction, ChangeFieldsErrorAction } from '../../types/form';
-import { reduxForm, Field, SubmitHandler } from 'redux-form';
+import { reduxForm, Field, InjectedFormProps } from 'redux-form';
 import renderField from './renderField';
 import validate from './validate';
 
-// interface AddTaskProps extends FormData {
-//     error: string|null;
-//     addTaskToList: (titleValue: string, descriptionValue: string) => void;
-//     changeTitle: (title: string) => ChangeTitleAction;
-//     changeDescription: (description: string) => ChangeDescriptionAction;
-//     changeFieldsError: (error: string | null) => ChangeFieldsErrorAction;
-//     onSubmit: (values: any) => void,
-// }
+interface FormData {
+    title: string,
+    description: string,
+}
 
-// type AllSampleFormProps = AddTaskProps & InjectedFormProps<FormData, AddTaskProps>;
+interface AddTaskProps extends FormData {
+    addTaskToList: (titleValue: string, descriptionValue: string) => void;
+}
 
-const AddTask: React.FC<any> = (props: any) => {
+interface onSubmitTypes {
+    title: string,
+    description: string,
+}
+
+const AddTask: React.FC<InjectedFormProps<FormData, AddTaskProps> & AddTaskProps> = 
+    (props) => {
     const {
         addTaskToList,
-        // changeTitle,
-        // changeDescription,
-        // changeFieldsError,
         title,
         description,
         error,
+        handleSubmit,
+        reset
     } = props;
 
-    const onSubmit = (values: React.FormEvent) => {
-        values.preventDefault();
-
-        if (!Object.keys(validate({
+    const onSubmit = (values: onSubmitTypes) => {
+        const {
             title,
             description
-        })).length) {
-            addTaskToList(title, description);
-        }
+        } = values;
+
+        addTaskToList(title, description);
+        reset();
     }
 
+
     return <form className="todo--form"
-        onSubmit={onSubmit}>
+        onSubmit={handleSubmit(onSubmit)}>
         {error ? <h2 className="todo--error">{error}</h2> : <></>}
         <h4>Add task</h4>
         <Field
@@ -60,7 +62,7 @@ const AddTask: React.FC<any> = (props: any) => {
     </form>
 }
 
-export default reduxForm({
+export default reduxForm<FormData, AddTaskProps>({
     form: 'add-task',
     validate
-})(AddTask) as any;
+})(AddTask);

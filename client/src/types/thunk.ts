@@ -2,7 +2,6 @@ import { DELETE_TODO, ADD_TODO, DATA_RECEIVED, DATA_ERROR, FETCH_STARTED, CHANGE
 import { TodoState } from "./todos";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
-import { CHANGE_TITLE, CHANGE_DESCRIPTION, CHANGE_FIELDS_ERROR } from "../ducs/form";
 
 type GetDataType = 
     typeof DATA_RECEIVED |
@@ -19,21 +18,12 @@ export type AddTaskThunk = typeof ADD_TODO | GetDataType;
 
 export type SortThunk = typeof SORT_CHANGE;
 
-export type ChangeTitleThunk = typeof CHANGE_TITLE;
-
-export type ChangeDescriptionThunk = typeof CHANGE_DESCRIPTION;
-
-export type ChangeFieldsErrorThunk = typeof CHANGE_FIELDS_ERROR;
-
 export type ThunkRootAction = 
     CheckboxHandlerThunk |
     GetTodoDataThunk |
     DeleteTaskThunk |
     AddTaskThunk |
-    SortThunk |
-    ChangeTitleThunk |
-    ChangeDescriptionThunk |
-    ChangeFieldsErrorThunk;
+    SortThunk;
 
 export type CommonThunkDispatch<T = ThunkRootAction> = 
     ThunkDispatch<TodoState, unknown, Action<T>>;
