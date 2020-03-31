@@ -6,7 +6,6 @@ import {
     UpdateCheckbox,
     DeleteTodo,
 } from '../ducs/todos';
-import { Todo } from '../types/todos';
 import {
     DeleteTaskThunk,
     GetTodoDataThunk,
@@ -14,78 +13,43 @@ import {
     AddTaskThunk,
     CommonThunkDispatch
 } from '../types/thunk';
+import fetchWrapper from './fetchWrapper';
 
 export const checkboxHandler = function (_id: string, isDone: boolean) {
-    return (dispatch: CommonThunkDispatch<CheckboxHandlerThunk>) => {
+    return async (dispatch: CommonThunkDispatch<CheckboxHandlerThunk>) => {
         dispatch(FetchStarted());
 
-        return fetch(`http://localhost:8080/task/${_id}`, {
+        await fetchWrapper(dispatch, `http://localhost:8080/task/${_id}`, {
             method: 'PUT',
             body: JSON.stringify({isDone}),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-        .then((response: Response) => {
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
 
-            dispatch(UpdateCheckbox(_id, isDone));
-        })
-        .then(()=>{
-            dispatch(DataReceived());
-        })
-        .catch((err) => {
-            dispatch(DataError(err.toString()));
-        });
+        dispatch(UpdateCheckbox(_id, isDone));
+        dispatch(DataReceived());
     }
 }
 
 export const getTodoData = () => {
-    return (dispatch: CommonThunkDispatch<GetTodoDataThunk>) => {
+    return async (dispatch: CommonThunkDispatch<GetTodoDataThunk>) => {
         dispatch(FetchStarted());
-        return fetch('http://localhost:8080/tasks')
-            .then((response: Response) => {
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                }
-
-                return response.json();
-            })
-            .then((todos: Array<Todo>) => {
-                dispatch(AddTodo(...todos));
-            })
-            .then(()=>{
-                // обертка над промисами чтобы было задержка
-                dispatch(DataReceived());
-            })
-            .catch((err) => {
-                dispatch(DataError(err.toString()));
-            });
+        const response: any = await fetchWrapper(dispatch, 'http://localhost:8080/tasks')
+        dispatch(AddTodo(...await response.json()));
+        dispatch(DataReceived());
     }
 }
 
 export const deleteTask = function (_id: string) {
-    return (dispatch: CommonThunkDispatch<DeleteTaskThunk>) => {
+    return async (dispatch: CommonThunkDispatch<DeleteTaskThunk>) => {
         dispatch(FetchStarted());
         
-        return fetch(`http://localhost:8080/task/${_id}`, {
+        await fetchWrapper(dispatch, `http://localhost:8080/task/${_id}`, {
             method: 'DELETE',
         })
-        .then((response: Response) => {
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-
-            dispatch(DeleteTodo(_id));
-        })
-        .then(() => {
-            dispatch(DataReceived());
-        })
-        .catch((err) => {
-            dispatch(DataError(err.toString()));
-        });
+        dispatch(DeleteTodo(_id));
+        dispatch(DataReceived());
     }
 }
 
@@ -93,8 +57,10 @@ export const addTask = function(
         title: string,
         description: string
     ) {
-    return (dispatch: CommonThunkDispatch<AddTaskThunk>) => {
-        return fetch(`http://localhost:8080/task`, {
+    return async (dispatch: CommonThunkDispatch<AddTaskThunk>) => {
+        dispatch(FetchStarted());
+
+        const response: any = await fetchWrapper(dispatch, `http://localhost:8080/task`, {
             method: 'POST',
             body: JSON.stringify({
                 title,
@@ -104,28 +70,15 @@ export const addTask = function(
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
-        .then((response: Response) => {
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-            dispatch(FetchStarted());
-            return response.json();
-        })
-        .then((_id)=>{
-            dispatch(
-                AddTodo({
-                    _id,
-                    title,
-                    description,
-                    isDone: false
-            }));
-        })
-        .then(()=>{
-            dispatch(DataReceived());
-        })
-        .catch((err)=> {
-            dispatch(DataError(err.toString()));
         });
+
+        dispatch(
+            AddTodo({
+                _id: await response.json(),
+                title,
+                description,
+                isDone: false
+        }));
+        dispatch(DataReceived());
     }
 }
