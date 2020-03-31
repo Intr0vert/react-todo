@@ -1,4 +1,4 @@
-import { DELETE_TODO, ADD_TODO, DATA_RECEIVED, DATA_ERROR, FETCH_STARTED, CHANGE_CHECKBOX, SORT_CHANGE } from "../ducs/todos";
+import { DELETE_TODO, ADD_TODO, DATA_RECEIVED, DATA_ERROR, FETCH_STARTED, CHANGE_CHECKBOX, SORT_CHANGE, UPDATE_TODO } from "../ducs/todos";
 import { TodoState } from "./todos";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
@@ -11,6 +11,8 @@ type GetDataType =
 export type CheckboxHandlerThunk = typeof CHANGE_CHECKBOX | GetDataType;
 
 export type GetTodoDataThunk = typeof ADD_TODO | GetDataType;
+
+export type UpdateTodosDataThunk = typeof UPDATE_TODO | GetDataType;
 
 export type DeleteTaskThunk = typeof DELETE_TODO | GetDataType;
     

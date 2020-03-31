@@ -8,10 +8,14 @@ interface RequestTypes {
     headers?: Headers | string[][] | Record<string, string> | undefined;
 }
 
-const fetchWrapper = (dispatch: CommonThunkDispatch, url: string, reqBody: RequestTypes = {}) => {
+function fetchWrapper<T> (
+    dispatch: CommonThunkDispatch,
+    url: string,
+    reqBody: RequestTypes = {}
+    ): Promise<T | Response> {
     return new Promise(async (resolve, reject) => {
         try {
-            const response = await fetch(url, reqBody);
+            const response: Response = await fetch(url, reqBody);
             
             if (!response.ok) {
                 reject(response.statusText);

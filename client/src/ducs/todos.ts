@@ -1,4 +1,4 @@
-import { TodoState } from '../types/todos';
+import { TodoState, UpdateTodosAction } from '../types/todos';
 import {
   AddTodoAction,
   Todo,
@@ -18,6 +18,7 @@ export const ADD_TODO = "ADD_TODO";
 export const DELETE_TODO = "DELETE_TODO";
 export const CHANGE_CHECKBOX = "CHANGE_CHECKBOX";
 export const SORT_CHANGE = "SORT_CHANGE";
+export const UPDATE_TODO = "UPDATE_TODO";
 
 const FetchStarted = (): FetchStartedTodoAction => ({
     type: FETCH_STARTED,
@@ -43,9 +44,9 @@ const DataError = (error: string): DataErrorTodoAction => ({
     }
 });
 
-const AddTodo = (...todo: Todo[]): AddTodoAction => ({
+const AddTodo = (...todos: Todo[]): AddTodoAction => ({
     type: ADD_TODO,
-    payload: todo
+    payload: todos
 });
 
 const DeleteTodo = (_id: string): DeleteTodoAction => ({
@@ -64,6 +65,11 @@ const UpdateCheckbox = (_id: string, isDone: boolean): ChangeCheckboxTodoAction 
 const SortChange = (): SortChangeTodoAction => ({
     type: SORT_CHANGE,
     payload: null
+});
+
+const UpdateTodos = (...todos: Todo[]): UpdateTodosAction => ({
+    type: UPDATE_TODO,
+    payload: todos
 });
 
 const initialState = {
@@ -100,10 +106,17 @@ export default function todos(state: TodoState = initialState, action: TodoActio
                 isLoading: action.payload.isLoading,
                 error: action.payload.error,
                 showAll: state.showAll,
-            };
+            }; 
         case ADD_TODO:
             return {
                 data: [...state.data, ...action.payload],
+                isLoading: state.isLoading,
+                error: state.error,
+                showAll: state.showAll,
+            }
+        case UPDATE_TODO:
+            return {
+                data: [...action.payload],
                 isLoading: state.isLoading,
                 error: state.error,
                 showAll: state.showAll,
@@ -135,5 +148,6 @@ export {
     FetchStarted,
     DataReceived,
     DataError,
-    SortChange
+    SortChange,
+    UpdateTodos,
 }

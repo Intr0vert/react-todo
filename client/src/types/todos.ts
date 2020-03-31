@@ -6,6 +6,7 @@ import {
     DATA_RECEIVED,
     DATA_ERROR,
     SORT_CHANGE,
+    UPDATE_TODO,
 } from '../ducs/todos';
 import { AbstractAction } from './action';
 
@@ -34,6 +35,7 @@ export interface CheckboxChange {
 }
 
 export type AddTodoAction = AbstractAction<typeof ADD_TODO, Todo[]>;
+export type UpdateTodosAction = AbstractAction<typeof UPDATE_TODO, Todo[]>;
 export type DeleteTodoAction = AbstractAction<typeof DELETE_TODO, string>;
 export type ChangeCheckboxTodoAction = AbstractAction<typeof CHANGE_CHECKBOX, CheckboxChange>;
 export type FetchStartedTodoAction = AbstractAction<typeof FETCH_STARTED, FetchAction>;
@@ -48,4 +50,5 @@ export type TodoAction =
     FetchStartedTodoAction |
     DataErrorTodoAction |
     DataReceiveTodoAction |
+    UpdateTodosAction |
     SortChangeTodoAction;
