@@ -2,7 +2,6 @@ import {
     AddTodo,
     FetchStarted,
     DataReceived,
-    DataError,
     UpdateCheckbox,
     DeleteTodo,
     UpdateTodos,
@@ -44,9 +43,9 @@ export const getTodoData = (addOrUpdateTodos: getTodoDataType = AddTodo) => {
     return async (dispatch: CommonThunkDispatch<GetTodoDataThunk | UpdateTodosDataThunk>) => {
         dispatch(FetchStarted());
         
-        const response: Response = await fetchWrapper(dispatch, 'http://localhost:8080/tasks')
+        const response = await fetchWrapper<Todo[]>(dispatch, 'http://localhost:8080/tasks')
         
-        dispatch(addOrUpdateTodos(...await response.json()));
+        dispatch(addOrUpdateTodos(...response));
         
         dispatch(DataReceived());
     }
@@ -77,7 +76,7 @@ export const addTask = function(
         dispatch(FetchStarted());
 
 
-        const response: Response = await fetchWrapper(dispatch, `http://localhost:8080/task`, {
+        const response = await fetchWrapper<string>(dispatch, `http://localhost:8080/task`, {
             method: 'POST',
             body: JSON.stringify({
                 title,
@@ -92,7 +91,7 @@ export const addTask = function(
 
         dispatch(
             AddTodo({
-                _id: await response.json(),
+                _id: response,
                 title,
                 description,
                 isDone: false
