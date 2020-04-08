@@ -9,7 +9,6 @@ import {
 } from './requests/handlers';
 import { TodoEl } from './components/TaskList/TodoEl';
 import { SortChangeTodoAction, Todo } from './types/todos';
-import { Sort } from './components/Sort/Sort';
 import Preloader from './components/Preloader/Preloader';
 import { CommonThunkDispatch } from './types/thunk';
 import { SortChange } from './ducs/todos';
@@ -24,6 +23,8 @@ import {
     TableRow,
     TableCell,
     TableBody,
+    FormControlLabel,
+    Switch,
 } from '@material-ui/core';
 import './components/TaskList/taskstyle.css';
 
@@ -57,7 +58,18 @@ class App extends Component<AppProps, State> {
     render(): JSX.Element {
         return (
             <Paper className="todo--wrapper">
-                <h1>Todo list</h1>
+                <div className="todo--title">
+                    <h1>Todo list</h1>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                color="primary"
+                                checked={!this.props.todos.showAll}
+                                onChange={this.sortChange} />
+                        }
+                        className="todo--sort"
+                        label="Only undone"/>
+                </div>
                 {this.props.todos.error && <h2 className="todo--error">{this.props.todos.error}</h2>}
                 {this.props.todos.isLoading ?
                     <Preloader /> :
@@ -85,10 +97,6 @@ class App extends Component<AppProps, State> {
                         </Table>
                     </TableContainer>
                 }
-                {/* <Sort 
-                    changeSort={this.sortChange}
-                    sort={this.props.todos.showAll}/>
-                <h1>TODO: </h1> */}
                 <AddTaskForm 
                     addTaskToList={this.addTask}
                     title={this.props.form.title}

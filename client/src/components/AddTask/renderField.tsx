@@ -40,9 +40,8 @@ const renderField = ({
                 placeholder={placeholder}
                 />
             <FormHelperText>
-                {touched &&
-                    (error && <span className='todo--error'>{error}</span>) ||
-                    (warning && <span className='todo--warning'>{warning}</span>)}
+                {touched && error && <span className='todo--error'>{error}</span>}
+                {touched && warning && <span className='todo--warning'>{warning}</span>}
             </FormHelperText>
         </FormControl>
     )

@@ -26,8 +26,6 @@ const AddTask: React.FC<InjectedFormProps<FormData, AddTaskProps> & AddTaskProps
         reset
     } = props;
 
-    // async validation
-    // form validation
     const onSubmit = useCallback(
         (values: FormData) => {
             const {

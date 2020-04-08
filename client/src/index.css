@@ -36,7 +36,19 @@ button {
     margin-bottom: 25px;
 }
 
-.todo--error {
-    color: red;
-    margin-bottom: 25px;
+.todo--title {
+    position: relative;
+    width: 100%;
+}
+
+.todo--title > h1 {
+    margin: 0;
+    text-align: center;
+}
+
+.todo--sort {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translate(0, -50%);
 }
