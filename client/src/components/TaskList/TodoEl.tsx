@@ -19,12 +19,23 @@ interface TodoElProps {
 export const TodoEl: React.FC<TodoElProps> = (props: TodoElProps) => {
   const {todo, changeCheckbox, deleteTaskFromList} = props;
   return (
-    <TableRow>
-      <TableCell>{todo.title}</TableCell>
-      <TableCell align="right">{
-        todo.description ?
-        todo.description : ''}</TableCell>
-      <TableCell align="right">
+    <TableRow
+      className="todo--row">
+      <TableCell>
+        <p
+          className={'todo--info'}>{todo.title}</p></TableCell>
+      <TableCell
+        className={'todo--info'}
+        align="right">
+          <p
+            className={'todo--info'}>{
+              todo.description ?
+              todo.description : ''}
+          </p>
+        </TableCell>
+      <TableCell
+        className={'todo--info'}
+        align="right">
         <Button
           className="todo--checkbox"
           variant="contained"
@@ -44,7 +55,9 @@ export const TodoEl: React.FC<TodoElProps> = (props: TodoElProps) => {
           }
         </Button>
       </TableCell>
-      <TableCell align="right">
+      <TableCell
+        className={'todo--info'}
+        align="right">
         <Button
           variant="contained"
           color="secondary"

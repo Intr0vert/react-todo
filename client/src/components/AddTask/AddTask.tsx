@@ -26,6 +26,8 @@ const AddTask: React.FC<InjectedFormProps<FormData, AddTaskProps> & AddTaskProps
         reset
     } = props;
 
+    // async validation
+    // form validation
     const onSubmit = useCallback(
         (values: FormData) => {
             const {
@@ -39,28 +41,32 @@ const AddTask: React.FC<InjectedFormProps<FormData, AddTaskProps> & AddTaskProps
     const formSubmit = useCallback(() => 
         handleSubmit(onSubmit), [handleSubmit, onSubmit]);
     
-        return <form className="todo--form"
-        onSubmit={formSubmit()}>
-        <h4>Add task</h4>
-        <Field
-            name={'title'}
-            type="text"
-            value={title} 
-            placeholder="Type title here..."
-            maxLength={32}
-            component={renderField}/>
-        <Field
-            name={'description'}
-            type="text"
-            value={description} 
-            placeholder="Type description here..."
-            maxLength={180}
-            component={renderField}/>
-        <Button
-            type="submit"
-            color="primary"
-            variant="contained">Add</Button>
-    </form>
+        return (
+            <form className="todo--form"
+                onSubmit={formSubmit()}>
+                <h4>Add task</h4>
+                <Field
+                    fieldName={'Title'}
+                    name={'title'}
+                    type="text"
+                    value={title} 
+                    placeholder="Type title here..."
+                    maxLength={32}
+                    component={renderField}/>
+                <Field
+                    fieldName={'Description'}
+                    name={'description'}
+                    type="text"
+                    value={description} 
+                    placeholder="Type description here..."
+                    maxLength={180}
+                    component={renderField}/>
+                <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained">Add</Button>
+            </form>
+        )
 }
 
 export default reduxForm<FormData, AddTaskProps>({

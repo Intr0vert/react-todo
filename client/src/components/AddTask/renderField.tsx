@@ -1,9 +1,13 @@
 import React from 'react';
 import {
-    TextField,
+    FormControl,
+    InputLabel,
+    Input,
+    FormHelperText
 } from '@material-ui/core';
 
 interface renderFieldProps {
+    fieldName: string;
     input: string;
     type: string;
     placeholder: string;
@@ -15,24 +19,32 @@ interface renderFieldProps {
 }
 
 const renderField = ({
+    fieldName,
     input,
     type,
     placeholder,
     meta: {
         touched,
         error,
+        warning
     },
     ...custom
 }: renderFieldProps) => (
-        <div className={'todo--field'}>
-            <TextField 
+        <FormControl className='todo--field'>
+            <InputLabel
+                htmlFor={`todo--${fieldName}`}>{fieldName}</InputLabel>
+            <Input
+                id={`todo--${fieldName}`}
                 {...input}
                 {...custom}
                 placeholder={placeholder}
                 />
-            {touched &&
-                (error && <span className='todo--error'>{error}</span>)}
-        </div>
+            <FormHelperText>
+                {touched &&
+                    (error && <span className='todo--error'>{error}</span>) ||
+                    (warning && <span className='todo--warning'>{warning}</span>)}
+            </FormHelperText>
+        </FormControl>
     )
 
 export default renderField;

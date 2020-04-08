@@ -13,16 +13,27 @@
     text-align: center;
 }
 
-.todo--checkbox {
+.todo--checkbox,
+.todo--delete {
     border-radius: 50% !important;
+    min-width: auto !important;
     width: 24px;
-    height: 64px;
+    height: 32px;
     cursor: pointer;
 }
 
-.todo--delete {
-    border-radius: 50%!important;
-    width: 24px;
-    height: 64px;
-    cursor: pointer;
+.todo--info {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.todo--row {
+    display: flex!important;
+    width: calc(100vw - 30px);
+}
+
+.todo--row > * {
+    display: flex !important;
+    align-items: center;
+    width: 25%;
 }

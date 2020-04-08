@@ -10,6 +10,7 @@ import {
 import { TodoEl } from './components/TaskList/TodoEl';
 import { SortChangeTodoAction, Todo } from './types/todos';
 import { Sort } from './components/Sort/Sort';
+import Preloader from './components/Preloader/Preloader';
 import { CommonThunkDispatch } from './types/thunk';
 import { SortChange } from './ducs/todos';
 import { getSortedTodos } from './selectors/sortedTodos';
@@ -24,6 +25,7 @@ import {
     TableCell,
     TableBody,
 } from '@material-ui/core';
+import './components/TaskList/taskstyle.css';
 
 interface AppProps extends State {
     addTask: (title: string, description: string) => void;
@@ -57,37 +59,32 @@ class App extends Component<AppProps, State> {
             <Paper className="todo--wrapper">
                 <h1>Todo list</h1>
                 {this.props.todos.error && <h2 className="todo--error">{this.props.todos.error}</h2>}
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Title</TableCell>
-                                <TableCell align="right">Description</TableCell>
-                                <TableCell align="right">Done</TableCell>
-                                <TableCell align="right">Delete</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.props.todos.data.map((el: Todo) => (
-                                <TodoEl 
-                                    key={el._id}
-                                    todo={el}
-                                    changeCheckbox={this.props.checkboxHandler}
-                                    deleteTaskFromList={this.props.deleteTask}
-                                    />
-                                // <TableRow key={el._id}>
-                                //     <TableCell>{el.title}</TableCell>
-                                    // <TableCell align="right">{
-                                    //     el.description ?
-                                    //     el.description : ''}
-                                    //     </TableCell>
-                                //     <TableCell align="right">{el.isDone.toString()}</TableCell>
-                                //     <TableCell align="right">Delete/Done</TableCell>
-                                // </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                {this.props.todos.isLoading ?
+                    <Preloader /> :
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <TableRow
+                                    className="todo--row">
+                                    <TableCell>Title</TableCell>
+                                    <TableCell align="right">Description</TableCell>
+                                    <TableCell align="right">Done</TableCell>
+                                    <TableCell align="right">Delete</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.props.todos.data.map((el: Todo) => (
+                                    <TodoEl 
+                                        key={el._id}
+                                        todo={el}
+                                        changeCheckbox={this.props.checkboxHandler}
+                                        deleteTaskFromList={this.props.deleteTask}
+                                        />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                }
                 {/* <Sort 
                     changeSort={this.sortChange}
                     sort={this.props.todos.showAll}/>

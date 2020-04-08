@@ -1,6 +1,6 @@
 .todo--form {
     width: 350px;
-    padding: 25px;
+    padding: 25px!important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,15 +10,26 @@
     margin-bottom: 15px;
 }
 
-.todo--error {
+.todo--error,
+.todo--warning {
     margin: 10px 0 0 0;
-    color: red;
     text-align: center;
 }
 
+.todo--warning {
+    color: yellow;
+}
+
 .todo--field {
-    display: flex;
+    max-width: 280px;
+    width: 100%;
+    display: flex !important;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 25px !important;
+}
+
+.todo--field > *{
+    max-width: 280px;
+    width: 100%;
 }
