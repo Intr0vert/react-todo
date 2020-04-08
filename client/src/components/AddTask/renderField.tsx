@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+    TextField,
+} from '@material-ui/core';
 
 interface renderFieldProps {
     input: string;
@@ -18,10 +21,15 @@ const renderField = ({
     meta: {
         touched,
         error,
-    }
+    },
+    ...custom
 }: renderFieldProps) => (
         <div className={'todo--field'}>
-            <input {...input} placeholder={placeholder} type={type} />
+            <TextField 
+                {...input}
+                {...custom}
+                placeholder={placeholder}
+                />
             {touched &&
                 (error && <span className='todo--error'>{error}</span>)}
         </div>

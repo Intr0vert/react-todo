@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 
 let uri : string;
 
+mongoose.set('useFindAndModify', false);
+mongoose.set('useUnifiedTopology', true);
+mongoose.set('useNewUrlParser', true);
+
 if (process.env.mongoDB) {
   uri = process.env.mongoDB;
 } else {

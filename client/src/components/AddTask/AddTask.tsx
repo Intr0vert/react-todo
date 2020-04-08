@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './addTask.css';
 import { reduxForm, Field, InjectedFormProps } from 'redux-form';
 import renderField from './renderField';
 import validate from './validate';
+import {
+    Button
+} from '@material-ui/core';
 
 interface FormData {
     title: string,
@@ -13,36 +16,31 @@ interface AddTaskProps extends FormData {
     addTaskToList: (titleValue: string, descriptionValue: string) => void;
 }
 
-interface onSubmitTypes {
-    title: string,
-    description: string,
-}
-
 const AddTask: React.FC<InjectedFormProps<FormData, AddTaskProps> & AddTaskProps> = 
     (props) => {
     const {
         addTaskToList,
         title,
         description,
-        error,
         handleSubmit,
         reset
     } = props;
 
-    const onSubmit = (values: onSubmitTypes) => {
-        const {
-            title,
-            description
-        } = values;
+    const onSubmit = useCallback(
+        (values: FormData) => {
+            const {
+                title,
+                description
+            } = values;
 
-        addTaskToList(title, description);
-        reset();
-    }
-
-
-    return <form className="todo--form"
-        onSubmit={handleSubmit(onSubmit)}>
-        {error ? <h2 className="todo--error">{error}</h2> : <></>}
+            addTaskToList(title, description);
+            reset();
+        }, [addTaskToList, reset]);
+    const formSubmit = useCallback(() => 
+        handleSubmit(onSubmit), [handleSubmit, onSubmit]);
+    
+        return <form className="todo--form"
+        onSubmit={formSubmit()}>
         <h4>Add task</h4>
         <Field
             name={'title'}
@@ -58,7 +56,10 @@ const AddTask: React.FC<InjectedFormProps<FormData, AddTaskProps> & AddTaskProps
             placeholder="Type description here..."
             maxLength={180}
             component={renderField}/>
-        <button>Add</button>
+        <Button
+            type="submit"
+            color="primary"
+            variant="contained">Add</Button>
     </form>
 }
 

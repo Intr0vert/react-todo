@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import {Request, Response} from 'express';
 import Task from './../task';
 import { Todo } from '../types/todo';
@@ -28,7 +27,7 @@ export const deleteTask = (req: Request, res: Response) => {
     if (err) {
       res.send(err);
     } else {
-      res.send('Successfully Deleted task');
+      res.send(JSON.stringify('Successfully Deleted task'));
     }
   });
 };
@@ -41,7 +40,7 @@ export const updateTask = (req: Request, res: Response) => {
         if (err) {
           res.send(err);
         } else {
-          res.send('Successfully updated task!');
+          res.send(JSON.stringify('Successfully updated task!'));
         }
       },
   );

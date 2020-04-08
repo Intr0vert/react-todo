@@ -1,5 +1,14 @@
 import React from 'react';
 import { Todo } from '../../types/todos';
+import {
+  Button,
+  TableRow,
+  TableCell
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import DoneIcon from '@material-ui/icons/Done';
+import CloseIcon from '@material-ui/icons/Close';
+import './taskstyle.css';
 
 interface TodoElProps {
   todo: Todo;
@@ -10,23 +19,42 @@ interface TodoElProps {
 export const TodoEl: React.FC<TodoElProps> = (props: TodoElProps) => {
   const {todo, changeCheckbox, deleteTaskFromList} = props;
   return (
-    <div className="todo--el">
-      <h4>{todo.title}</h4>
-      <p>{todo.description}</p>
-      <div
-        className={
-          todo.isDone
-            ? "todo--checkbox todo--done"
-            : "todo--checkbox todo--undone"
-        }
-        onClick={() =>
-          changeCheckbox(todo._id, !todo.isDone)
-        }
-      ></div>
-      <div
-        className="todo--delete"
-        onClick={() => deleteTaskFromList(todo._id)}
-      ></div>
-    </div>
+    <TableRow>
+      <TableCell>{todo.title}</TableCell>
+      <TableCell align="right">{
+        todo.description ?
+        todo.description : ''}</TableCell>
+      <TableCell align="right">
+        <Button
+          className="todo--checkbox"
+          variant="contained"
+          color={
+            todo.isDone ?
+              "primary" :
+              "secondary"
+          }
+          onClick={() =>
+            changeCheckbox(todo._id, !todo.isDone)
+          }
+        >
+          {
+            todo.isDone ?
+              <DoneIcon /> :
+              <CloseIcon />
+          }
+        </Button>
+      </TableCell>
+      <TableCell align="right">
+        <Button
+          variant="contained"
+          color="secondary"
+          className="todo--delete"
+          aria-label="delete"
+          onClick={() => deleteTaskFromList(todo._id)}
+        >
+          <DeleteIcon />
+        </Button>
+      </TableCell>
+    </TableRow>
   );
 };

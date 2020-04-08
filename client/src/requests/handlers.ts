@@ -27,7 +27,7 @@ export const checkboxHandler = function (_id: string, isDone: boolean) {
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        });
 
         dispatch(UpdateCheckbox(_id, isDone));
         

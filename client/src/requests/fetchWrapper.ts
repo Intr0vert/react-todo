@@ -15,7 +15,7 @@ function fetchWrapper<TResult> (
         return new Promise(async (resolve, reject) => {
             try {
                 const response: Response = await fetch(url, reqBody);
-                
+
                 if (!response.ok) {
                     reject(response.statusText);
                 }
