@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 import Task from './../task';
 import { Todo } from '../types/todo';
 
@@ -23,7 +23,7 @@ export const getTask = (req: Request, res: Response) => {
 };
 
 export const deleteTask = (req: Request, res: Response) => {
-  Task.deleteOne({_id: req.params.id}, (err: Error) => {
+  Task.deleteOne({ _id: req.params.id }, (err: Error) => {
     if (err) {
       res.send(err);
     } else {
@@ -33,17 +33,13 @@ export const deleteTask = (req: Request, res: Response) => {
 };
 
 export const updateTask = (req: Request, res: Response) => {
-  Task.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      (err: Error) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(JSON.stringify('Successfully updated task!'));
-        }
-      },
-  );
+  Task.findByIdAndUpdate(req.params.id, req.body, (err: Error) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(JSON.stringify('Successfully updated task!'));
+    }
+  });
 };
 
 export const addTask = (req: Request, res: Response) => {

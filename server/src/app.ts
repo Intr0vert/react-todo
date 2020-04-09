@@ -1,26 +1,24 @@
-/* eslint-disable indent */
 require('dotenv').config();
 
 import * as bodyParser from 'body-parser';
 import morgan from 'morgan';
-import express, {
-  Request,
-  Response,
- } from 'express';
+import express, { Request, Response } from 'express';
 import * as taskController from './controllers/taskController';
 
 const app: express.Application = express();
 import 'assert';
 
-app.use(bodyParser.urlencoded({
-  extended: false,
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
 app.use(bodyParser.json());
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
@@ -31,7 +29,7 @@ app.use((req, res, next) => {
 app.use(morgan('dev'));
 app.set('port', process.env.PORT || 3000);
 
-app.get('/', function(req: Request, res: Response) {
+app.get('/', function (req: Request, res: Response) {
   res.send('Hey!');
 });
 

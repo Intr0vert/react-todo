@@ -1,7 +1,7 @@
 require('dotenv').config();
 import mongoose from 'mongoose';
 
-let uri : string;
+let uri: string;
 
 mongoose.set('useFindAndModify', false);
 mongoose.set('useUnifiedTopology', true);
@@ -22,21 +22,25 @@ mongoose.connect(uri, (err: Error) => {
 });
 
 export interface ITask extends mongoose.Document {
-  id: number,
-  title: string,
-  description: string,
-  isDone: boolean
+  id: number;
+  title: string;
+  description: string;
+  isDone: boolean;
 }
 
-export const TaskSchema = new mongoose.Schema({
-  title: {
-    type: String, required: true,
+export const TaskSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: { type: String, required: false },
+    isDone: { type: Boolean, required: true },
   },
-  description: {type: String, required: false},
-  isDone: {type: Boolean, required: true},
-}, {
-  collection: 'task',
-});
+  {
+    collection: 'task',
+  }
+);
 
 const Task = mongoose.model<ITask>('Task', TaskSchema);
 export default Task;
