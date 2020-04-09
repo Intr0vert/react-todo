@@ -6,7 +6,9 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "google"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/@typescript-eslint",
+        "plugin:prettier/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -22,9 +24,9 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "prettier"
     ],
     "rules": {
-        "linebreak-style": ["error", "ux"]
     }
 }

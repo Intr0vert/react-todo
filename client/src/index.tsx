@@ -9,7 +9,9 @@ import App from './App';
 import thunk, { ThunkMiddleware } from 'redux-thunk';
 import { State } from './types/state';
 
-const store = createStore(rootReducer, applyMiddleware(thunk as ThunkMiddleware<State>));
+type ThunkType = ThunkMiddleware<State>
+
+const store = createStore(rootReducer, applyMiddleware(thunk as ThunkType));
 
 ReactDOM.render(
     <Provider store={store}>
